@@ -1,1 +1,9 @@
-# famine
+# FamineModel
+
+## Overview
+This model detect the possibility of famine from social and agricultural datasets.
+
+## References
+Datasets by Ms. Okaneya
+https://onedrive.live.com/?authkey=%21As0NcKtnj7vLHB4&id=3A6F41AA9027A686%211657&cid=3A6F41AA9027A686
+https://onedrive.live.com/?authkey=%21AoP%2DmkU6HfYrjKA&id=3A6F41AA9027A686%211325&cid=3A6F41AA9027A686
