@@ -1,0 +1,156 @@
+﻿code,ISO3,Country,Correl
+1,AFG,Afghanistan,0
+3,ALB,Albania,0
+4,DZA,Algeria,0
+7,AGO,Angola,0
+11,ARG,Argentina,0
+12,ARM,Armenia,1
+14,AUS,Australia,1
+15,AUT,Austria,0
+16,AZE,Azerbaijan,1
+18,BHR,Bahrain,1
+19,NGD,Bangladesh,0
+21,BLR,Belarus,1
+22,BEL,Belgium,1
+24,BEN,Benin,1
+27,BOL,Bolivia,0
+28,BIH,Bosnia And Herzegovina,1
+29,BWA,Botswana,1
+31,BRA,Brazil,0
+34,BGR,Bulgaria,0
+35,BFA,Burkina Faso,1
+36,BDI,Burundi,0
+37,KHM,Cambodia,0
+38,CMR,Cameroon,0
+39,CAN,Canada,1
+42,RCA,Central African Republic,0
+43,TCD,Chad,1
+44,RCH,Chile,0
+45,CHN,China,0
+48,COL,Colombia,0
+50,COG,Congo,1
+51,COD,"Congo, The Democratic Republic Of The",1
+53,CRI,Costa Rica,0
+54,CIV,Cote D'Ivoire,1
+55,HRV,Croatia,1
+56,CUB,Cuba,0
+57,CYP,Cyprus,1
+58,CZE,Czech Republic,0
+59,DNK,Denmark,1
+62,DOM,Dominican Republic,0
+63,ECU,Ecuador,0
+64,EGY,Egypt,0
+65,SLV,El Salvador,1
+67,ERI,Eritrea,1
+68,EST,Estonia,1
+69,ETH,Ethiopia,0
+73,FIN,Finland,0
+74,FRA,France,0
+78,GAB,Gabon,0
+79,GMB,Gambia,0
+80,GEO,Georgia,1
+81,DEU,Germany,0
+82,GHA,Ghana,1
+84,GRC,Greece,0
+89,GTM,Guatemala,0
+91,GIN,Guinea,1
+92,GNB,Guinea-Bissau,0
+94,HTI,Haiti,0
+97,HND,Honduras,0
+98,HKG,Hong Kong,1
+99,HUN,Hungary,1
+101,IND,India,1
+102,IDN,Indonesia,1
+103,IRN,"Iran, Islamic Republic Of",0
+104,IRQ,Iraq,0
+105,IRL,Ireland,0
+107,ISR,Israel,0
+108,ITA,Italy,1
+109,JAM,Jamaica,1
+110,JPN,Japan,0
+112,JOR,Jordan,1
+113,KAZ,Kazakhstan,1
+114,KEN,Kenya,1
+116,PRK,"Korea, Democratic People'S Republic Of",0
+117,KOR,"Korea, Republic Of",0
+118,KWT,Kuwait,0
+119,KGZ,Kyrgyzstan,1
+120,LAO,Lao People's Democratic Republic,1
+121,LVA,Latvia,1
+122,LBN,Lebanon,0
+123,LSO,Lesotho,0
+124,LBR,Liberia,0
+125,LBY,Libyan Arab Jamahiriya,0
+127,LTU,Lithuania,1
+130,MKD,"Macedonia, The Former Yugoslav Republic Of",1
+131,MDG,Madagascar,0
+132,MWI,Malawi,1
+133,MYS,Malaysia,0
+135,MLI,Mali,1
+139,MRT,Mauritania,1
+140,MUS,Mauritius,1
+142,MEX,Mexico,0
+144,MDA,"Moldova, Republic Of",1
+146,MNG,Mongolia,1
+148,MAR,Morocco,1
+149,MOZ,Mozambique,0
+150,MMR,Myanmar,0
+151,NAM,Namibia,0
+153,NPL,Nepal,0
+154,NLD,Netherlands,1
+157,NZL,New Zealand,0
+158,NIC,Nicaragua,0
+159,NER,Niger,1
+160,NGA,Nigeria,0
+164,NOR,Norway,0
+165,OMN,Oman,1
+166,PAK,Pakistan,0
+168,PSE,"Palestinian Territory, Occupied",1
+169,PAN,Panama,0
+170,PNG,Papua New Guinea,0
+171,PRY,Paraguay,0
+172,PER,Peru,0
+173,PHL,Philippines,0
+175,POL,Poland,0
+176,PRT,Portugal,0
+177,PRI,Puerto Rico,1
+178,QAT,Qatar,1
+180,ROU,Romania,0
+181,RUS,Russian Federation,1
+182,RWA,Rwanda,0
+191,SAU,Saudi Arabia,0
+192,SEN,Senegal,1
+195,SLE,Sierra Leone,1
+196,SGP,Singapore,1
+197,SVK,Slovakia,1
+198,SVN,Slovenia,1
+200,SOM,Somalia,1
+201,ZAF,South Africa,0
+203,ESP,Spain,0
+204,LKA,Sri Lanka,0
+205,SDN,Sudan,1
+208,SWZ,Swaziland,1
+209,SWE,Sweden,0
+210,CHE,Switzerland,0
+211,SYR,Syrian Arab Republic,1
+213,TJK,Tajikistan,1
+214,TZA,"Tanzania, United Republic Of",0
+215,THA,Thailand,0
+216,TLS,Timor-Leste,1
+217,TGO,Togo,1
+220,TTO,Trinidad And Tobago,0
+221,TUN,Tunisia,0
+222,TUR,Turkey,1
+223,TKM,Turkmenistan,1
+226,UGA,Uganda,1
+227,UKR,Ukraine,1
+228,ARE,United Arab Emirates,0
+229,GBR,United Kingdom,1
+230,USA,United States,1
+232,URY,Uruguay,0
+233,UZB,Uzbekistan,1
+235,VEN,Venezuela,1
+236,VNM,Viet Nam,0
+241,YEM,Yemen,0
+242,ZMB,Zambia,1
+243,ZWE,Zimbabwe,1
