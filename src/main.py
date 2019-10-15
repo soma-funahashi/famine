@@ -1,42 +1,55 @@
+###########################################################
+#to          : run the famine detect model
+#by          : Soma Funahashi, U-Tokyo, IIS
+#last update : 2019/10/15
+###########################################################
+
 import numpy as np
 import pandas as pd
 import csv
 
-df1=pd.read_csv("../famineDB/correlation.csv")
-df2=pd.read_csv("../famineDB/gdp_per_cap.csv")
-df3=pd.read_csv("../famineDB/urban_population.csv")
+### setting
+prj="dflt"                                            # project name (4 letters)
+yrs=np.arange(1961,2012)                              # year
 
-yl=np.arange(1961,2012)
-cnt=df1["Country"]
-out=pd.DataFrame(index=df1["ISO3"])
+### input file
+df1=pd.read_csv("../dat/correlation.csv")             # data of correlation b/w AWI and AP
+df2=pd.read_csv("../dat/gdp_per_cap.csv")             # data of GDP per capita
+df3=pd.read_csv("../dat/urban_population.csv")        # data of urban population rate
 
-with open("../out/famineCountryName.csv", "w") as f:
-    writer=csv.writer(f)
+### main function
+def main():
+    cnt=df1["Country"]
+    out=pd.DataFrame(index=df1["ISO3"])
 
-    for k in range(len(yl)):
-        tmp=[]
-        tmp2=[]
-        year=yl[k]
-        l=np.array(df2[str(year)])
-        ave_list=np.average(l)
-        ave_list=df2.mean()
+    with open("../out/"+prj+"____name.csv", "w") as f:
+        writer=csv.writer(f)
 
-        for i in range(len(df1)):
-            if df1["Correl"][i]==1:
-                if df2[str(year)][i]<ave_list[year-1961]:
-                    if df3[str(year)][i]<=30:                
-                        tmp.append(1)
-                        tmp2.append(cnt[i])
+        for k in range(len(yrs)):
+            tmp1 = []
+            tmp2 = []
+            yr   = yrs[k]
+#           l    = np.array(df2[str(year)])
+#           ave_list=np.average(l)
+            avl  = df2.mean()
+
+            for i in range(len(df1)):
+                if df1["Correl"][i] == 1:
+                    if df2[str(yr)][i] < avl[yr-1961]:
+                        if df3[str(yr)][i] <= 30:                
+                            tmp1.append(3)
+                            tmp2.append(cnt[i])
+                        else:
+                            tmp1.append(2)
                     else:
-                        tmp.append(0)
+                        tmp1.append(1)
                 else:
-                    tmp.append(0)
-            else:
-                tmp.append(0)
-        print(year, sum(tmp), tmp2)
-        w=[year]+[sum(tmp)]+tmp2
-        writer.writerow(w)
+                    tmp1.append(0)
+            print(yr, np.count_nonzero(np.array(tmp1)==3), tmp2)
+            w = [yr] + [np.count_nonzero(np.array(tmp1)==31)] + tmp2
+            writer.writerow(w)
+            out[str(yr)]=tmp1
 
-        out[str(year)]=tmp
+        out.to_csv('../out/'+prj+'____rslt.csv')
 
-    out.to_csv('../out/famineCountry.csv')
+main()
