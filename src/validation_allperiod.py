@@ -49,7 +49,7 @@ def main():
 
     print("both     :", ctb)
     print("only obs :", cto)
-    print("only sim :", ctm)
+    print("only mdl :", ctm)
     print("neither  :", ctn)
     dfd["Result"] = tmp
     dfd["Phase"]  = phs

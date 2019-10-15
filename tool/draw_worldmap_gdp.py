@@ -31,7 +31,7 @@ year=s[1]
 data=df[str(year)]
 fn_out="GDP_per_capita_"+str(year)+".png"
 
-### collecting dataset
+### get maximum value to create colorbar
 m=0
 for y in range(1961,2011):
     tmp=max(df[str(y)])
