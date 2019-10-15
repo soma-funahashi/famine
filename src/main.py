@@ -29,8 +29,6 @@ def main():
             tmp1 = []
             tmp2 = []
             yr   = yrs[k]
-#           l    = np.array(df2[str(year)])
-#           ave_list=np.average(l)
             avl  = df2.mean()
 
             for i in range(len(df1)):
@@ -46,7 +44,7 @@ def main():
                 else:
                     tmp1.append(0)
             print(yr, np.count_nonzero(np.array(tmp1)==3), tmp2)
-            w = [yr] + [np.count_nonzero(np.array(tmp1)==31)] + tmp2
+            w = [yr] + [np.count_nonzero(np.array(tmp1)==3)] + tmp2
             writer.writerow(w)
             out[str(yr)]=tmp1
 
