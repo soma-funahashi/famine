@@ -23,9 +23,8 @@ def main():
     cto = []                                          # over-predicted countries
     ctm = []                                          # under-predicted countries
     ctn = []                                          # neither case
-    doa = dfo.max(axis=1)                             # whether famine occuredor not
+    doa = dfo.max(axis=1)                             # whether famine occurred or not
     dma = dfm.max(axis=1)                             # worst phase of all period
-
     tmp = []                                          # result
     phs = []                                          # phase
 
@@ -51,6 +50,10 @@ def main():
     print("only obs :", cto)
     print("only mdl :", ctm)
     print("neither  :", ctn)
+    print("both     :", len(ctb))
+    print("only obs :", len(cto))
+    print("only mdl :", len(ctm))
+    print("neither  :", len(ctn))
     dfd["Result"] = tmp
     dfd["Phase"]  = phs
     dfd.to_csv("../out/"+prj+"____vald.csv")
