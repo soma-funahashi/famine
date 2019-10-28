@@ -1,5 +1,9 @@
 #!/bin/sh
-
+###########################################################
+#to          : draw a map of input data of each year
+#by          : Soma Funahashi, U-Tokyo, IIS
+#last update : 2019/10/15
+###########################################################
 
 for I in $(seq 1961 2011)
 do
