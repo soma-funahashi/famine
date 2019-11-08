@@ -13,9 +13,9 @@ prj="dflt"                                            # project name (4 letters)
 yrs=np.arange(1961,2012)                              # year
 
 ### input file
-df1=pd.read_csv("../dat/correlation.csv")             # data of correlation b/w AWI and AP
-df2=pd.read_csv("../dat/gdp_per_cap.csv")             # data of GDP per capita
-df3=pd.read_csv("../dat/urban_population.csv")        # data of urban population rate
+df1=pd.read_csv("../dat/cor/correlation.csv")             # data of correlation b/w AWI and AP
+df2=pd.read_csv("../dat/gdp/gdp_per_cap.csv")             # data of GDP per capita
+df3=pd.read_csv("../dat/upp/urban_population.csv")        # data of urban population rate
 
 ### main function
 def main():
