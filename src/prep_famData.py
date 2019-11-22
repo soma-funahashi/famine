@@ -6,7 +6,7 @@
 import pandas as pd
 import numpy as np
 
-df0=pd.read_csv("../dat/org/famineDB_190921.csv")
+df0=pd.read_csv("../dat/fam/famineDB_190921.csv")
 df1=pd.read_csv("../dat/cor/correlation.csv")
 
 out=pd.DataFrame(index=df1["ISO3"], columns=np.arange(1961,2012))
@@ -20,4 +20,4 @@ for i in range(len(df0)):
         for k in range(syr,eyr+1):
             out.loc[[cnt],[k]]=1
 
-out.to_csv("../dat/org/famineData.csv")
+out.to_csv("../dat/fam/famineData.csv")

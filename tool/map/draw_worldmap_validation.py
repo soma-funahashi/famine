@@ -47,7 +47,7 @@ def validation():
             area(ax, n, "tomato")
         elif dfv["Result"][i] == "o":
             area(ax, n, "royalblue")
-    plt.savefig("../fig/validation/"+prj+"____vald.png", bbox_inches="tight")
+    plt.savefig("../fig/vald/"+prj+"____vald.png", bbox_inches="tight")
     plt.show()
 
 def phase():

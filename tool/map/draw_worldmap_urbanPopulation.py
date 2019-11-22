@@ -21,7 +21,7 @@ def area(ax, iso, clr) :
     return ax
 
 ### input data
-df=pd.read_csv("../famineModel/urban_population.csv")
+df=pd.read_csv("../../dat/upp/urban_population.csv")
 df=df.fillna(0)
 iso3=df["ISO3"]
 
@@ -63,4 +63,6 @@ cax_pos0 = cax.ax.get_position()
 cax_pos1 = [cax_pos0.x0, ax_pos.y0, cax_pos0.x1 - cax_pos0.x0, ax_pos.y1 - ax_pos.y0]
 cax.ax.set_position(cax_pos1)
 
-plt.savefig("../fig/urban_population/"+fn_out,bbox_inches="tight")
+
+plt.show()
+#plt.savefig("../fig/urban_population/"+fn_out,bbox_inches="tight")

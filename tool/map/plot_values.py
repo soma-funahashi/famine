@@ -7,18 +7,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
+def filename(fn):
+    if fn == "aws":
+        fin = "aws/mod2_SupAgr__WFDELECD.csv"
+        lab = "Agricultural water input"
+    elif fn == "cor":
+        fin = "cor/correlation.csv"
+        lab = "Correlation"
+    elif fn == "gdp":
+        fin = "gdp/gdp_per_cap.csv"
+        lab = "GDP per capita"
+    elif fn == "upp":
+        fin = "upp/urban_population.csv"
+        lab = "Urban population rate"
+    elif fn == "unr":
+        fin = "unr/undernourishment.csv"
+        lab = "Undernourished population rate"
+    
+    return [fin, lab]
+
+### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
+xdata = "gdp"
+ydata = "upp"
+logscale = True
+
 ### input data
-#df1 = pd.read_csv("../../dat/gdp_per_cap.csv")
-#df2 = pd.read_csv("../../dat/urban_population.csv")
-
-#df1 = pd.read_csv("../../dat/gdp_per_cap.csv")
-#df2 = pd.read_csv("../../dat/correlation.csv")
-
-#df1 = pd.read_csv("../../dat/urban_population.csv")
-#df2 = pd.read_csv("../../dat/correlation.csv")
-
-df1 = pd.read_csv("../../dat/urban_population.csv")
-df2 = pd.read_csv("../../dat/undernourishment.csv")
+xfn = filename(xdata)
+yfn = filename(ydata)
+df1 = pd.read_csv("../../dat/"+xfn[0])
+df2 = pd.read_csv("../../dat/"+yfn[0])
 
 tmp1 = []
 tmp2 = []
@@ -29,12 +47,9 @@ tmp2 = df2.mean(axis="columns")
 ### model output
 prj = "dflt"
 df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
-
 val = df3["Result"]
-print(val[3])
 
 ### plotting
-
 plt.figure()
 
 for i in range(len(val)):
@@ -47,10 +62,10 @@ for i in range(len(val)):
     else:
         plt.scatter(tmp1[i],tmp2[i], color="darkorchid", alpha=0.3, edgecolor=None)
 
-#plt.xscale("log")
-#plt.xlabel("GDP per cap.")
-#plt.ylabel("Urban population rate")
-#plt.ylabel("correlation")
-#plt.legend()
+if logscale:
+    plt.xscale("log")
 
+plt.xlabel(xfn[1])
+plt.ylabel(yfn[1])
+plt.savefig("../../fig/plt/"+prj+"____"+xdata+"_"+ydata+".png")
 plt.show()
