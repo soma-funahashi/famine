@@ -1,4 +1,4 @@
-﻿code,ISO3,Country,Correl
+﻿code,ISO3,Country,cor
 1,AFG,Afghanistan,0
 3,ALB,Albania,0
 4,DZA,Algeria,0
@@ -14,7 +14,7 @@
 22,BEL,Belgium,1
 24,BEN,Benin,1
 27,BOL,Bolivia,0
-28,BIH,Bosnia And Herzegovina,1
+28,BIH,Bosnia and Herzegovina,1
 29,BWA,Botswana,1
 31,BRA,Brazil,0
 34,BGR,Bulgaria,0
@@ -138,7 +138,7 @@
 215,THA,Thailand,0
 216,TLS,Timor-Leste,1
 217,TGO,Togo,1
-220,TTO,Trinidad And Tobago,0
+220,TTO,Trinidad and Tobago,0
 221,TUN,Tunisia,0
 222,TUR,Turkey,1
 223,TKM,Turkmenistan,1

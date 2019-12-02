@@ -1,7 +1,7 @@
 ###########################################################
-#to          : draw a gif animation of model output
+#to          : plot two data
 #by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/10/15
+#last update : 2019/11/29
 ###########################################################
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,8 +13,8 @@ def filename(fn):
         fin = "aws/mod2_SupAgr__WFDELECD.csv"
         lab = "Agricultural water input"
     elif fn == "cor":
-        fin = "cor/correlation.csv"
-        lab = "Correlation"
+        fin = "cor/correlation_data.csv"
+        lab = "Correlation b/w AWS and VAP"
     elif fn == "gdp":
         fin = "gdp/gdp_per_cap.csv"
         lab = "GDP per capita"
@@ -24,6 +24,9 @@ def filename(fn):
     elif fn == "unr":
         fin = "unr/undernourishment.csv"
         lab = "Undernourished population rate"
+    elif fn == "awspc":
+        fin = "aws/aws_per_capita.csv"
+        lab = "AWS per capita"
     
     return [fin, lab]
 
@@ -56,11 +59,15 @@ for i in range(len(val)):
     if val[i] == "n":
         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
     elif val[i] == "m":
-        plt.scatter(tmp1[i],tmp2[i], color="tomato", alpha=0.3, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
+#       plt.scatter(tmp1[i],tmp2[i], color="tomato", alpha=0.3, edgecolor=None)
     elif val[i] == "o":
-        plt.scatter(tmp1[i],tmp2[i], color="royalblue", alpha=0.3, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="darkorchid", alpha=0.3, edgecolor=None)
+        print(df3["ISO3"][i],tmp1[i],tmp2[i])
+#       plt.scatter(tmp1[i],tmp2[i], color="royalblue", alpha=0.3, edgecolor=None)
     else:
         plt.scatter(tmp1[i],tmp2[i], color="darkorchid", alpha=0.3, edgecolor=None)
+        print(df3["ISO3"][i],np.round(tmp1[i],3),np.round(tmp2[i],3))
 
 if logscale:
     plt.xscale("log")
