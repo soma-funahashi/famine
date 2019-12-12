@@ -7,12 +7,13 @@ import pandas as pd
 import numpy as np
 
 def calc_perCapita():
-    dfaws = pd.read_csv("../dat/aws/mod2_SupAgr__WFDELECD.csv")       #1979-2014
+#   dfaws = pd.read_csv("../dat/aws/mod2_SupAgr__WFDELECD.csv")       #1979-2014
+    dfaws = pd.read_csv("../dat/vap/vap_inp.csv")                     #1961-2016
     dfpop = pd.read_csv("../dat/pop/population_inp.csv")              #1950-2019
     out = pd.DataFrame(index=dfpop["ISO3"])
     
-    syr = 1979
-    eyr = 2014
+    syr = 1961
+    eyr = 2016
 
     tmp = []
     for i in range(len(out)):
@@ -26,7 +27,8 @@ def calc_perCapita():
         o = []
         for i in range(len(out)):
             o.append(tmp[i][y])
-        out[str(y+1979)] = o
-    out.to_csv("../dat/aws/aws_per_capita.csv")
+        out[str(y+1961)] = o
+#   out.to_csv("../dat/aws/aws_per_capita.csv")
+    out.to_csv("../dat/vap/vap_per_capita.csv")
 
 calc_perCapita()

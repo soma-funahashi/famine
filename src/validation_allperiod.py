@@ -12,7 +12,7 @@ import csv
 prj="dflt"                                            # project name (4 letters)
 
 ### file
-dfo = pd.read_csv("../dat/org/famineData.csv")            # famine database
+dfo = pd.read_csv("../dat/fam/famineData.csv")            # famine database
 dfm = pd.read_csv("../out/" + prj + "____rslt.csv")        # model output
 dfd = pd.DataFrame(index= dfo["ISO3"])              # output dataframe
 

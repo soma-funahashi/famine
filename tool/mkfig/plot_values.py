@@ -18,6 +18,9 @@ def filename(fn):
     elif fn == "gdp":
         fin = "gdp/gdp_per_cap.csv"
         lab = "GDP per capita"
+    elif fn == "gpi":
+        fin = "gpi/global_peace_index.csv"
+        lab = "Global Peace Index"
     elif fn == "upp":
         fin = "upp/urban_population.csv"
         lab = "Urban population rate"
@@ -31,9 +34,9 @@ def filename(fn):
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "gdp"
-ydata = "upp"
-logscale = True
+xdata = "cor"
+ydata = "unr"
+logscale = False
 
 ### input data
 xfn = filename(xdata)
