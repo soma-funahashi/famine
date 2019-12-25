@@ -32,7 +32,7 @@ def main():
             avl  = df2.mean()
 
             for i in range(len(df1)):
-                if df1["Correl"][i] == 1:
+                if df1["cor"][i] == 1:
                     if df2[str(yr)][i] < avl[yr-1961]:
                         if df3[str(yr)][i] <= 30:                
                             tmp1.append(3)

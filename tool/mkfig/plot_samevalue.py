@@ -26,12 +26,12 @@ def filename(fn):
         lab = "AWS per capita"
     elif fn == "vappc":
         fin = "vap/vap_per_capita.csv"
-        lab = "VAP per capita"
+        lab = "Value of Agricultural Production per capita (Int.100$/year)"
 
     return [fin, lab]
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "upp"
+dataname = "vappc"
 logscale = False
 
 ### input data
@@ -57,11 +57,13 @@ for i in range(1,len(df3)):
         plt.plot(yl, tmp, linewidth=0.5, color="red")
         print(df3["ISO3"][i])
     else:
-        plt.plot(yl, tmp, linewidth=0.5, color="gray")
+        plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
 
 if logscale:
     plt.yscale("log")
+
 plt.title(fn[1])
+
 if dataname=="awspc":
     plt.savefig("../../fig/aws/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
 elif dataname=="vappc":
