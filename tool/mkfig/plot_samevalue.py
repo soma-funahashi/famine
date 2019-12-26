@@ -27,11 +27,14 @@ def filename(fn):
     elif fn == "vappc":
         fin = "vap/vap_per_capita.csv"
         lab = "Value of Agricultural Production per capita (Int.100$/year)"
+    elif fn == "out":
+        fin = "../out/multipleRegression.csv"
+        lab = "Famine Vulnerability"
 
     return [fin, lab]
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "vappc"
+dataname = "out"
 logscale = False
 
 ### input data

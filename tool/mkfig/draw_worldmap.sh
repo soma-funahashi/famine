@@ -5,9 +5,9 @@
 #last update : 2019/10/15
 ###########################################################
 
-for I in $(seq 1961 2011)
+for I in $(seq 1961 2012)
 do
     echo $I
 #   python draw_worldmap_famineCountry.py $I
-    python draw_worldmap_urbanPopulation.py $I
+    python draw_worldmap_out.py $I
 done

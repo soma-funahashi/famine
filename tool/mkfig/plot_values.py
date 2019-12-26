@@ -30,12 +30,15 @@ def filename(fn):
     elif fn == "awspc":
         fin = "aws/aws_per_capita.csv"
         lab = "AWS per capita"
-    
+    elif fn == "mrg":
+        fin = "../out/multiRegression.csv"
+        lab = "Famine Vulnerability"
+
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "cor"
-ydata = "unr"
+xdata = "gpi"
+ydata = "cor"
 logscale = False
 
 ### input data
@@ -65,11 +68,11 @@ for i in range(len(val)):
         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
 #       plt.scatter(tmp1[i],tmp2[i], color="tomato", alpha=0.3, edgecolor=None)
     elif val[i] == "o":
-        plt.scatter(tmp1[i],tmp2[i], color="darkorchid", alpha=0.3, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.3, edgecolor=None)
         print(df3["ISO3"][i],tmp1[i],tmp2[i])
 #       plt.scatter(tmp1[i],tmp2[i], color="royalblue", alpha=0.3, edgecolor=None)
     else:
-        plt.scatter(tmp1[i],tmp2[i], color="darkorchid", alpha=0.3, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.3, edgecolor=None)
         print(df3["ISO3"][i],np.round(tmp1[i],3),np.round(tmp2[i],3))
 
 if logscale:
