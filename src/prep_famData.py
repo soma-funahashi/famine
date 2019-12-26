@@ -40,20 +40,14 @@ def famineDataNumber(df0,df1):
 
     out.to_csv("../dat/fam/famineDataNumber.csv")
 
-def famineDataNumberRate(df0,df1,df2):
-    out=pd.DataFrame(index=df1["ISO3"], columns=np.arange(1961,2020))
-    out=out.fillna(0)
-
-    for i in range(len(df0)):
-        syr=int(df0.iloc[i,2])
-        eyr=int(df0.iloc[i,3])
-        cnt=str(df0.iloc[i,5])
-        cas=int(df0.iloc[i,6])
-        if syr>=1961 and eyr<=2019:
-            for k in range(syr,eyr+1):
-                pop=int(df2[str(k)][i])
-                out.loc[[cnt],[k]]=float(cas)/pop
+def famineDataNumberRate():
+    out=pd.DataFrame(index=df1["ISO3"], columns=np.arange(1961,2012))
+#    out=out.fillna(0)
+    inp=pd.read_csv("../dat/fam/famineDataNumber.csv")
+    for i in range(len(df2)):
+        for y in range(1961,2012):
+            out[y][i] = float(inp[str(y)][i])/float(df2[str(y)][i])
 
     out.to_csv("../dat/fam/famineDataNumberRate.csv")
 
-famineDataNumberRate(df0,df1,df2)
+famineDataNumberRate()

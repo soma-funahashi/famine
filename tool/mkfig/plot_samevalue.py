@@ -41,6 +41,7 @@ logscale = False
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
 dfp = df.values
+dff = pd.read_csv("../../dat/fam/famineDataNumberRate.csv")
 yl = df.columns[1:]
 yl = yl.astype("int")
 yl = np.array(yl)
@@ -57,10 +58,17 @@ for i in range(1,len(df3)):
     tmp = dfp[i][1:]
     tmp = tmp.astype("float32")
     if val[i]=="o" or val[i]=="b":
-        plt.plot(yl, tmp, linewidth=0.5, color="red")
+        plt.plot(yl, tmp, linewidth=0.5, color="red",zorder=50)
         print(df3["ISO3"][i])
     else:
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
+
+for y in range(1961,2012):
+    for i in range(len(dff)):
+        if dff[str(y)][i]>0:
+            plt.scatter(y,dfp[i][y-1961], color="Red", s=dff[str(y)][i]*200, alpha=0.9, linewidths=None, zorder=100)
+    
+
 
 if logscale:
     plt.yscale("log")
