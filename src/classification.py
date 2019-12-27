@@ -7,7 +7,6 @@ cor = pd.read_csv("../dat/cor/correlation_data.csv")
 fam = pd.read_csv("../dat/fam/famineData.csv")
 fam = fam.sum(axis="columns")
 
-
 cnt=0
 for i in range(len(gpi)):
     if cor["cor"][i]>=0.2 or gpi[i]>=2.9:

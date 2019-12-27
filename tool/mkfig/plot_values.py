@@ -16,7 +16,7 @@ def filename(fn):
         fin = "cor/correlation_data.csv"
         lab = "Correlation b/w AWS and VAP"
     elif fn == "gdp":
-        fin = "gdp/gdp_per_cap.csv"
+        fin = "gdp/gdp_per_cap_filled.csv"
         lab = "GDP per capita"
     elif fn == "gpi":
         fin = "gpi/global_peace_index.csv"
@@ -37,9 +37,9 @@ def filename(fn):
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "gpi"
-ydata = "cor"
-logscale = False
+xdata = "gdp"
+ydata = "upp"
+logscale = True
 
 ### input data
 xfn = filename(xdata)

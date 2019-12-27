@@ -29,19 +29,33 @@ def filename(fn):
         lab = "Value of Agricultural Production per capita (Int.100$/year)"
     elif fn == "out":
         fin = "../out/multipleRegression.csv"
-        lab = "Famine Vulnerability"
+        lab = "Estimated death rate by famine (% of the population)"
+    elif fn == "out2":
+        fin = "../out/multipleRegression2.csv"
+        lab = "Estimated death rate by famine (% of the population)"
 
     return [fin, lab]
+
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
 dataname = "out"
 logscale = False
+saveflag = False
+
 
 ### input data
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
 dfp = df.values
 dff = pd.read_csv("../../dat/fam/famineDataNumberRate.csv")
+dfg = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
+fam = pd.read_csv("../../dat/fam/famineData.csv")
+fam = fam.sum(axis=1)
+gpi = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
+gpi = gpi.mean(axis="columns")
+cor = pd.read_csv("../../dat/cor/correlation_data.csv")
+cor = cor.mean(axis="columns")
+
 yl = df.columns[1:]
 yl = yl.astype("int")
 yl = np.array(yl)
@@ -54,32 +68,35 @@ val = df3["Result"]
 
 plt.figure(figsize=(8,6))
 
-for i in range(1,len(df3)):
+for i in range(1,len(dfp)):
     tmp = dfp[i][1:]
     tmp = tmp.astype("float32")
-    if val[i]=="o" or val[i]=="b":
+    if fam[i]>=1:
         plt.plot(yl, tmp, linewidth=0.5, color="red",zorder=50)
         print(df3["ISO3"][i])
+    elif gpi[i]>2.9 or cor[i]>0.2:
+        plt.plot(yl, tmp, linewidth=0.5, color="blue")
     else:
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
 
-for y in range(1961,2012):
-    for i in range(len(dff)):
-        if dff[str(y)][i]>0:
-            plt.scatter(y,dfp[i][y-1961], color="Red", s=dff[str(y)][i]*200, alpha=0.9, linewidths=None, zorder=100)
-    
 
+for y in range(1961,2012):
+    for i in range(len(dfp)):
+        if dff[str(y)][i]>0:
+            plt.scatter(y,dfp[i][y-1961], color="Red", s=dff[str(y)][i]*500, alpha=0.5, linewidths=None, zorder=100)
 
 if logscale:
     plt.yscale("log")
 
 plt.title(fn[1])
 
-if dataname=="awspc":
-    plt.savefig("../../fig/aws/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
-elif dataname=="vappc":
-    plt.savefig("../../fig/vap/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
-else:
-    plt.savefig("../../fig/"+dataname+"/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
+if saveflag:
+    if dataname=="awspc":
+        plt.savefig("../../fig/aws/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
+    elif dataname=="vappc":
+        plt.savefig("../../fig/vap/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
+    else:
+        plt.savefig("../../fig/"+dataname+"/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
+
 plt.show()
 plt.close()
