@@ -37,9 +37,9 @@ def filename(fn):
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "gdp"
-ydata = "upp"
-logscale = True
+xdata = "gpi"
+ydata = "cor"
+logscale = False
 
 ### input data
 xfn = filename(xdata)

@@ -31,16 +31,16 @@ def filename(fn):
         fin = "../out/multipleRegression.csv"
         lab = "Estimated death rate by famine (% of the population)"
     elif fn == "out2":
-        fin = "../out/multipleRegression2.csv"
+        fin = "../out/multipleRegression_4values.csv"
         lab = "Estimated death rate by famine (% of the population)"
 
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "out"
+dataname = "out2"
 logscale = False
-saveflag = False
+saveflag = True
 
 
 ### input data
@@ -72,18 +72,22 @@ for i in range(1,len(dfp)):
     tmp = dfp[i][1:]
     tmp = tmp.astype("float32")
     if fam[i]>=1:
-        plt.plot(yl, tmp, linewidth=0.5, color="red",zorder=50)
+        plt.plot(yl, tmp*100, linewidth=0.5, color="red",zorder=50)
         print(df3["ISO3"][i])
     elif gpi[i]>2.9 or cor[i]>0.2:
-        plt.plot(yl, tmp, linewidth=0.5, color="blue")
+        plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
     else:
-        plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
+        plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
 
 
 for y in range(1961,2012):
     for i in range(len(dfp)):
         if dff[str(y)][i]>0:
-            plt.scatter(y,dfp[i][y-1961], color="Red", s=dff[str(y)][i]*500, alpha=0.5, linewidths=None, zorder=100)
+            plt.scatter(y,dfp[i][y-1961]*100, color="Red", s=dff[str(y)][i]*500, alpha=0.5, linewidths=None, zorder=100)
+
+# plt.scatter(1965, -0.0015*100, color="Red", s=0.01*500, alpha=0.5, linewidths=None, zorder=100)
+# plt.scatter(1965, -0.00175*100, color="Red", s=0.05*500, alpha=0.5, linewidths=None, zorder=100)
+# plt.scatter(1965, -0.002*100, color="Red", s=0.1*500, alpha=0.5, linewidths=None, zorder=100)
 
 if logscale:
     plt.yscale("log")
