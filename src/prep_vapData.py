@@ -1,16 +1,9 @@
-###########################################################
-#to          : convert the vap data into model input
-#by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/11/21
-###########################################################
-
 import numpy as np
 import pandas as pd
 import datetime
 
 df0 = pd.read_csv("../dat/vap/Value_of_Production_E_All_Data_NOFLAG.csv", encoding="ISO-8859-1")
-df1 = pd.read_csv("../dat/gdp/gdp_per_cap.csv")
-df0 = df0.fillna(0)
+inp = df0.fillna(0)
 
 
 def prep_cnl():
@@ -24,8 +17,7 @@ def prep_cnl():
 
 
 def main(cnl):
-    l = []
-    out = pd.DataFrame(index=cnl, columns=np.arange(1961,2017))
+    out = pd.DataFrame(index=cnl, columns=np.arange(1961,2019))
     for k in range(len(cnl)):
         a = np.zeros(56)
         for i in range(len(df0)):
@@ -36,20 +28,19 @@ def main(cnl):
             out[y][k] = a[y-1961]
         print(datetime.datetime.now(), ": completed :", cnl[k])
     out.to_csv("../dat/vap/vap_org.csv")
-#cnl = prep_cnl()
-#main(cnl)
+
+main(prep_cnl())
 
 def prep2():
-    nat = pd.read_csv("../dat/nat/nat_msk.csv")
+    iso = pd.read_csv("../dat/nat/nationCode.csv")
     fin = pd.read_csv("../dat/vap/vap_org.csv")
-    out = pd.DataFrame(index = nat["ISO3"], columns=np.arange(1961,2017))
-    for i in range(len(nat)):
-        tmp = []
+    out = pd.DataFrame(index = iso["ISO3"], columns=np.arange(1961,2017))
+    for i in range(len(iso)):
         for k in range(len(fin)):
-            if nat["Country"][i] == fin["Country"][k]:
+            if iso["Country"][i] == fin["Country"][k]:
                 for y in range(1961,2017):
                     out[y][i] = fin[str(y)][k]
     out.to_csv("../dat/vap/vap_inp.csv")
     print(out)
 
-prep2()
+#prep2()

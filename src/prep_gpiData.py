@@ -1,31 +1,27 @@
-###########################################################
-#to          : convert the database into model input
-#by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/11/26
-###########################################################
 import pandas as pd
 import numpy as np
 
-df0 = pd.read_csv("../dat/gpi/gpi_org2.csv")
-df1 = pd.read_csv("../dat/cor/correlation.csv")
+iso = pd.read_csv("../dat/nat/nationCode.csv")
+inp = pd.read_csv("../dat/gpi/gpi_org2.csv")
 
-cnt = df1["ISO3"]
+cnt = iso["ISO3"]
 
-out = pd.DataFrame(index=df1["ISO3"])
+out = pd.DataFrame(index=iso["ISO3"])
 
 for yr in range(2008,2020):
     tmp=[]
-    for i in range(len(df1)):
+    for i in range(len(iso)):
         flag = True
-        for k in range(len(df0)):
-            if df0["Country"][k]==df1["Country"][i]:
-                tmp.append(df0[str(yr)][k])
+        for k in range(len(inp)):
+            if inp["Country"][k]==iso["Country"][i]:
+                tmp.append(round(inp[str(yr)][k],3))
                 flag=False
             else:
                 pass
         if flag:
-            print(df1["ISO3"][i])
+            print(iso["ISO3"][i])
             tmp.append("")
+    print(yr)
     out[str(yr)] = tmp
 
 #out = out.fillna(0)

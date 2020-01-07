@@ -1,8 +1,3 @@
-###########################################################
-#to          : convert the data into model input
-#by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/11/22
-###########################################################
 import pandas as pd
 import numpy as np
 
@@ -28,6 +23,7 @@ def calc_cor():
         print(df0["ISO3"][i],res[0][1])
     out["cor"] = tmp
     out.to_csv("../dat/cor/correlation_data.csv")
+calc_cor()
 
 def check_cor():
     mo = pd.read_csv("../dat/cor/correlation.csv")
@@ -43,4 +39,4 @@ def check_cor():
             cnt += 1
         print(flag, "okaneya :", mo["cor"][i],"funahashi :", tmp, np.round(sf["cor"][i],4))
     print(cnt)
-check_cor()
+#check_cor()
