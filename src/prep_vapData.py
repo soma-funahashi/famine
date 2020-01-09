@@ -3,7 +3,7 @@ import pandas as pd
 import datetime
 
 df0 = pd.read_csv("../dat/vap/Value_of_Production_E_All_Data_NOFLAG.csv", encoding="ISO-8859-1")
-inp = df0.fillna(0)
+df0 = df0.fillna(0)
 
 
 def prep_cnl():
@@ -27,6 +27,7 @@ def main(cnl):
         for y in range(1961,2017):
             out[y][k] = a[y-1961]
         print(datetime.datetime.now(), ": completed :", cnl[k])
+        print(a)
     out.to_csv("../dat/vap/vap_org.csv")
 
 main(prep_cnl())
@@ -34,12 +35,13 @@ main(prep_cnl())
 def prep2():
     iso = pd.read_csv("../dat/nat/nationCode.csv")
     fin = pd.read_csv("../dat/vap/vap_org.csv")
-    out = pd.DataFrame(index = iso["ISO3"], columns=np.arange(1961,2017))
+    out = pd.DataFrame(index = iso["ISO3"], columns=np.arange(1961,2019))
     for i in range(len(iso)):
-        for k in range(len(fin)):
+        for k in range(len(fin)): 
             if iso["Country"][i] == fin["Country"][k]:
-                for y in range(1961,2017):
+                for y in range(1961,2019):
                     out[y][i] = fin[str(y)][k]
+        print(iso["ISO3"][i])
     out.to_csv("../dat/vap/vap_inp.csv")
     print(out)
 
