@@ -4,4 +4,4 @@ fig/
 dat/
 */archived
 .DS_Store
-*nohup.out
+*/nohup.out
