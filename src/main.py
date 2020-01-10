@@ -3,7 +3,7 @@ import pandas as pd
 import csv
 
 ### setting
-prj="dflt"                                            # project name (4 letters)
+prj="drgt"                                            # project name (4 letters)
 yrs=np.arange(1961,2019)                              # year
 
 ### input file
@@ -27,9 +27,9 @@ def main():
             avl  = df2.mean()
 
             for i in range(len(df1)):
-                if df1["cor"][i] >= 0.15:
+                if df1["cor"][i] >= 0.10:
                     if df2[str(yr)][i] < avl[yr-1961]:
-                        if df3[str(yr)][i] <= 30:                
+                        if df3[str(yr)][i] <= 30:
                             tmp1.append(3)
                             tmp2.append(cnt[i])
                         else:
@@ -45,15 +45,51 @@ def main():
 
         out.to_csv('../out/'+prj+'____rslt.csv')
 
-#main()
+main()
 
 
+# validation
 def validation():
     rsl = pd.read_csv('../out/'+prj+'____rslt.csv')
-    fam = pd.read_csv('../dat/fam/famineDataNumberRate.csv')
+#   fam = pd.read_csv('../dat/fam/famineDataNumberRate.csv')
+    fam = pd.read_csv('../dat/fam/famineDataNumberRate_drought.csv')
     for i in range(len(rsl)):
         for y in range(1961, 2018):
-            if rsl.iloc[i][y-1960] != 3 and float(fam.iloc[i][y-1960]) > 0.0:
+            if rsl.iloc[i][y-1960] != 3 and float(fam.iloc[i][y-1960]) > 0:
                 print(y, rsl["ISO3"][i], rsl.iloc[i][y-1960], round(df1["cor"][i],2), round(df2.iloc[i][y-1960],2), round(df3.iloc[i][y-1960],2))
 
 validation()
+
+
+def count():
+#   df_obs = pd.read_csv("../dat/fam/famineData.csv")
+    df_obs = pd.read_csv("../dat/fam/famineData_drought.csv")
+    df_sim = pd.read_csv("../out/"+prj+"____rslt.csv")
+    cnt_os_11 = 0
+    cnt_os_10 = 0
+    cnt_os_01 = 0
+    cnt_os_00 = 0
+
+    def check(y,rsl):
+        return y, rsl["ISO3"][i], rsl.iloc[i][y-1960], round(df1["cor"][i],2), round(df2.iloc[i][y-1960],2), round(df3.iloc[i][y-1960],2)
+
+    for y in range(1961,2019):
+        for i in range(len(df_obs)):
+            if df_obs[str(y)][i] == 1 and df_sim[str(y)][i] == 3:
+                cnt_os_11 += 1
+            elif df_obs[str(y)][i] == 1 and df_sim[str(y)][i] == 0:
+                cnt_os_10 += 1
+                print(check(y,df_sim))
+            elif df_obs[str(y)][i] == 0 and df_sim[str(y)][i] == 3:
+                cnt_os_01 += 1
+            else:
+                cnt_os_00 += 1
+    print("both     :", cnt_os_11)
+    print("only obs :", cnt_os_10)
+    print("only sim :", cnt_os_01)
+    print("neither  :", cnt_os_00)
+    print("accuracy =", (cnt_os_11 + cnt_os_00) / (cnt_os_11 + cnt_os_10 + cnt_os_01 + cnt_os_00))
+    #print("threat score  =", cnt_os_11 / (cnt_os_11 + cnt_os_10 + cnt_os_01))
+    #df_dif.to_csv("../out/validationResult.csv")
+
+count()
