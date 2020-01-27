@@ -1,7 +1,8 @@
-H08/
-ref/
-fig/
-dat/
+H08/*
+ref/*
+fig/*
+dat/*
+out/*
 */archived
 .DS_Store
 */nohup.out

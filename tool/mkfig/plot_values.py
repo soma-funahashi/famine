@@ -33,13 +33,16 @@ def filename(fn):
     elif fn == "mrg":
         fin = "../out/multiRegression.csv"
         lab = "Famine Vulnerability"
+    elif fn == "uppf":
+        fin = "../dat/upp/upp_future.csv"
+        lab = "Urban population (Future)"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "gpi"
+xdata = "gdp"
 ydata = "cor"
-logscale = False
+logscale = True
 
 ### input data
 xfn = filename(xdata)
@@ -55,8 +58,9 @@ tmp2 = df2.mean(axis="columns")
 
 ### model output
 prj = "dflt"
-df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
+#df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
 val = df3["Result"]
+
 
 ### plotting
 plt.figure()

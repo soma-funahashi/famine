@@ -28,17 +28,26 @@ def filename(fn):
         fin = "vap/vap_per_capita.csv"
         lab = "Value of Agricultural Production per capita (Int.100$/year)"
     elif fn == "out":
-        fin = "../out/multipleRegression.csv"
+        fin = "../out/multipleRegression_3values.csv"
         lab = "Estimated death rate by famine (% of the population)"
     elif fn == "out2":
-        fin = "../out/multipleRegression_4values.csv"
+        fin = "../out/multipleRegression_drought_gdp.csv"
         lab = "Estimated death rate by famine (% of the population)"
+    elif fn == "out3":
+        fin = "../out/multipleRegression_drought_gdp_cor.csv"
+        lab = "Estimated death rate by famine (% of the population)"
+    elif fn == "out4":
+        fin = "../out/multipleRegression_drought_gdp_upp_cor.csv"
+        lab = "Estimated death rate by famine (% of the population)"
+    elif fn == "uppf":
+        fin = "../dat/upp/upp_future.csv"
+        lab = "Urban population rate (Future)"
 
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "out2"
+dataname = "uppf"
 logscale = False
 saveflag = True
 
@@ -47,9 +56,11 @@ saveflag = True
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
 dfp = df.values
-dff = pd.read_csv("../../dat/fam/famineDataNumberRate.csv")
+dff = pd.read_csv("../../dat/fam/famineDataNumberRate_drought.csv")
+dff = dff.set_index("ISO3")
+
 dfg = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
-fam = pd.read_csv("../../dat/fam/famineData.csv")
+fam = pd.read_csv("../../dat/fam/famineData_drought.csv")
 fam = fam.sum(axis=1)
 gpi = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
 gpi = gpi.mean(axis="columns")
@@ -62,32 +73,38 @@ yl = np.array(yl)
 print(yl)
 
 ### model output
-prj = "dflt"
-df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
-val = df3["Result"]
+prj = "drgt"
+#df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
+#val = df3["Result"]
 
 plt.figure(figsize=(8,6))
 
 for i in range(1,len(dfp)):
     tmp = dfp[i][1:]
     tmp = tmp.astype("float32")
-    if fam[i]>=1:
-        plt.plot(yl, tmp*100, linewidth=0.5, color="red",zorder=50)
-        print(df3["ISO3"][i])
-    elif gpi[i]>2.9 or cor[i]>0.2:
-        plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
+    cnt = df["ISO3"][i]
+    dfs = dff.sum(axis=1)
+    if dfs[cnt] > 0:
+        plt.plot(yl, tmp, linewidth=0.5, color="red",zorder=50)
+#       print(dff.index[i])
+#   elif gpi[i]>2.9 or cor[i]>0.2:
+#       plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
     else:
-        plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
+        plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
+
+print(dff)
 
 
-for y in range(1961,2012):
-    for i in range(len(dfp)):
-        if dff[str(y)][i]>0:
-            plt.scatter(y,dfp[i][y-1961]*100, color="Red", s=dff[str(y)][i]*500, alpha=0.5, linewidths=None, zorder=100)
+#for y in range(1961,2019):
+#    for i in range(len(dfp)):
+#       cnt = df["ISO3"][i]
+#       print(cnt)
+#       if dff.loc[cnt, str(y)] != 0:
+#           plt.scatter(y-1,dfp[i][y-1961]*100, color="Red", s=dff.loc[cnt,str(y)]*5000, alpha=0.5, linewidths=None, zorder=100)
 
-# plt.scatter(1965, -0.0015*100, color="Red", s=0.01*500, alpha=0.5, linewidths=None, zorder=100)
-# plt.scatter(1965, -0.00175*100, color="Red", s=0.05*500, alpha=0.5, linewidths=None, zorder=100)
-# plt.scatter(1965, -0.002*100, color="Red", s=0.1*500, alpha=0.5, linewidths=None, zorder=100)
+#plt.scatter(1965, -0.00010*100, color="Red", s=0.01*5000, alpha=0.5, linewidths=None, zorder=100)
+#plt.scatter(1965, -0.00015*100, color="Red", s=0.05*5000, alpha=0.5, linewidths=None, zorder=100)
+#plt.scatter(1965, -0.00020*100, color="Red", s=0.1*5000, alpha=0.5, linewidths=None, zorder=100)
 
 if logscale:
     plt.yscale("log")
@@ -102,5 +119,7 @@ if saveflag:
     else:
         plt.savefig("../../fig/"+dataname+"/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
 
+
+#plt.savefig("../../fig/multipleRegression_new" + dataname + ".png",dpi=300,bbox_inches="tight")
 plt.show()
 plt.close()
