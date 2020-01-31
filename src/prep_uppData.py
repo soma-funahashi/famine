@@ -7,7 +7,6 @@ iso = pd.read_csv("../dat/nat/nationCode.csv")
 
 def prep_upp_past():
     inp = pd.read_csv("../dat/upp/upp_org.csv",skiprows=4)
-    cnt = iso["ISO3"]
     out = pd.DataFrame(index=iso["ISO3"])
     for yr in range(1960,2019):
         tmp=[]

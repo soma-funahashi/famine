@@ -9,6 +9,12 @@ def filename(fn):
     elif fn == "gdp":
         fin = "gdp/gdp_per_cap.csv"
         lab = "GDP per capita"
+    elif fn == "gdpf":
+        fin = "gdp/gdp_ssp1_cnt_year.csv"
+        lab = "GDP in the future (SSP1)"
+    elif fn == "popf":
+        fin = "pop/pop_ssp1_cnt_year.csv"
+        lab = "Population in the future (SSP1)"
     elif fn == "gpi":
         fin = "gpi/global_peace_index.csv"
         lab = "Global Peace Index"
@@ -47,8 +53,8 @@ def filename(fn):
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "uppf"
-logscale = False
+dataname = "gdpf"
+logscale = True
 saveflag = True
 
 
@@ -58,7 +64,7 @@ df = pd.read_csv("../../dat/"+fn[0])
 dfp = df.values
 dff = pd.read_csv("../../dat/fam/famineDataNumberRate_drought.csv")
 dff = dff.set_index("ISO3")
-
+  
 dfg = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
 fam = pd.read_csv("../../dat/fam/famineData_drought.csv")
 fam = fam.sum(axis=1)
@@ -91,8 +97,6 @@ for i in range(1,len(dfp)):
 #       plt.plot(yl, tmp*100, linewidth=0.5, color="lightgray")
     else:
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
-
-print(dff)
 
 
 #for y in range(1961,2019):

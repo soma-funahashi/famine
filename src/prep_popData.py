@@ -34,4 +34,50 @@ def prep2():
     out.to_csv("../dat/pop/population_inp.csv")
     print(out)
 
-prep2()
+#prep2()
+
+def prep_pop_future():
+    ssp = "ssp1"
+    inp = pd.read_csv("../dat/pop/pop_" + ssp + ".csv")
+    out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2110,10))
+    for i in range(len(iso)):
+        cnt = iso["ISO3"][i]
+#        cnt = "JPN"
+        tmp = np.zeros(13)
+        for k in range(len(inp)):
+            if inp["ISO3"][k] == cnt:
+                data = inp.values
+                data = data[k, 4:]
+                tmp  = data * 1000000 + tmp
+                tmp = tmp.astype("int")
+        for l in range(len(tmp)):
+            print(cnt, inp.columns[l+4], tmp[l])
+        out.loc[cnt] = tmp[4:]
+    
+    print(out)
+    out.to_csv("../dat/pop/pop_" + ssp + "_cnt.csv")
+
+#prep_pop_future()
+
+def prep_gdp_future_year():
+    ssp = "ssp1"
+    inpf = pd.read_csv("../dat/pop/pop_" + ssp + "_cnt.csv")
+    out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2101))
+    yl = [2020, 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100]
+    for k in range(len(iso)):
+        for i in range(len(inpf)):
+            if inpf["ISO3"][i] == iso["ISO3"][k]:
+                obs = inpf[i:i+1]
+                obs = obs.values[0][1:]
+                obs = obs.astype(np.float32)   
+                tmp = [int(obs[0])]
+                for m in range(len(yl)-1):
+                    d = obs[m + 1] - obs[m]
+                    for j in range(10):
+                        tmp.append(int(obs[m] + (j + 1) * d / 10))
+                #tmp.append(obs[-1])
+                out.loc[iso["ISO3"][k]] = tmp
+    print(out)
+    out.to_csv("../dat/pop/pop_" + ssp + "_cnt_year.csv")
+
+prep_gdp_future_year()
