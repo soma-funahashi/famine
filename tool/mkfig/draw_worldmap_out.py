@@ -14,14 +14,14 @@ def area(ax, iso, clr) :
                                   name='admin_0_countries')
     reader = shpreader.Reader(shp)
     for n in reader.records() :
-        if n.attributes['ADM0_A3'] == iso: 
+        if n.attributes['ISO_A3'] == iso: 
             ax.add_geometries(n.geometry, ccrs.PlateCarree(), facecolor=clr, 
                               alpha = 1.00, linewidth =0.15, edgecolor = "black",
-                              label=n.attributes['ADM0_A3']) 
+                              label=n.attributes['ISO_A3']) 
     return ax
 
 ### input data
-df=pd.read_csv("../../out/multipleRegression2.csv")
+df=pd.read_csv("../../out/futr__rslt__cnt__ssp1.csv")
 df=df.fillna(0)
 iso3=df["ISO3"]
 
@@ -29,13 +29,13 @@ iso3=df["ISO3"]
 s=sys.argv
 year=s[1]
 data=df[str(year)]
-fn_out="multipleRegression2_"+str(year)+".png"
+fn_out="future_ssp1_"+str(year)+".png"
 
 ### collecting dataset
 m=0
-for y in range(1961,2012):
-    tmp=max(df[str(y)])
-    m=max(tmp,m)
+for y in range(2020, 2051):
+    tmp = max(df[str(y)])
+    m   = max(tmp,m)
 
 ### drawing figure
 fig=plt.figure(figsize=(10,6))
@@ -64,4 +64,4 @@ cax_pos1 = [cax_pos0.x0, ax_pos.y0, cax_pos0.x1 - cax_pos0.x0, ax_pos.y1 - ax_po
 cax.ax.set_position(cax_pos1)
 
 #plt.show()
-plt.savefig("../../fig/out2/"+fn_out,bbox_inches="tight")
+plt.savefig("../../fig/outf/"+fn_out,bbox_inches="tight")

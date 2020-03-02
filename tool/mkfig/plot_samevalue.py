@@ -48,12 +48,18 @@ def filename(fn):
     elif fn == "uppf":
         fin = "../dat/upp/upp_future.csv"
         lab = "Urban population rate (Future)"
+    elif fn == "imp":
+        fin = "../dat/gdp/import_inp_filled.csv"
+        lab = "Imported Value / GDP (%)"
+    elif fn == "imppc":
+        fin = "../dat/gdp/imported_value_per_cap.csv"
+        lab = "Imported Value per capita (current USD)"
 
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "gdpf"
+dataname = "gdp"
 logscale = True
 saveflag = True
 
@@ -99,16 +105,16 @@ for i in range(1,len(dfp)):
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
 
 
-#for y in range(1961,2019):
+# for y in range(1961,2019):
 #    for i in range(len(dfp)):
 #       cnt = df["ISO3"][i]
 #       print(cnt)
 #       if dff.loc[cnt, str(y)] != 0:
-#           plt.scatter(y-1,dfp[i][y-1961]*100, color="Red", s=dff.loc[cnt,str(y)]*5000, alpha=0.5, linewidths=None, zorder=100)
+#           plt.scatter(y, dfp[i][y-1961], color="Red", s=dff.loc[cnt,str(y)] * 5000, alpha=0.5, linewidths=None, zorder=100)
 
-#plt.scatter(1965, -0.00010*100, color="Red", s=0.01*5000, alpha=0.5, linewidths=None, zorder=100)
-#plt.scatter(1965, -0.00015*100, color="Red", s=0.05*5000, alpha=0.5, linewidths=None, zorder=100)
-#plt.scatter(1965, -0.00020*100, color="Red", s=0.1*5000, alpha=0.5, linewidths=None, zorder=100)
+# plt.scatter(1965, 300, color="Red", s=0.01*5000, alpha=0.5, linewidths=None, zorder=100)
+# plt.scatter(1965, 275, color="Red", s=0.05*5000, alpha=0.5, linewidths=None, zorder=100)
+# plt.scatter(1965, 240, color="Red", s=0.1*5000, alpha=0.5, linewidths=None, zorder=100)
 
 if logscale:
     plt.yscale("log")
@@ -120,6 +126,8 @@ if saveflag:
         plt.savefig("../../fig/aws/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
     elif dataname=="vappc":
         plt.savefig("../../fig/vap/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
+    elif dataname=="imppc":
+        plt.savefig("../../fig/imp/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
     else:
         plt.savefig("../../fig/"+dataname+"/"+prj+"____"+dataname+".png",dpi=300,bbox_inches="tight")
 

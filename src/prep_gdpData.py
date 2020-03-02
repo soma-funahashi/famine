@@ -3,6 +3,7 @@ import numpy as np
 
 iso = pd.read_csv("../dat/nat/nationCode.csv")
 
+ssp = "ssp1"
 
 def prep_gdp_past():
     inp = pd.read_csv("../dat/gdp/gdp_per_cap_org.csv",skiprows=4)
@@ -27,7 +28,6 @@ def prep_gdp_past():
     out.to_csv("../dat/gdp/gdp_per_cap_new.csv")
 
 def prep_gdp_future():
-    ssp = "ssp1"
     inp = pd.read_csv("../dat/gdp/gdp_" + ssp + ".csv")
     print(inp.columns)
     out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2110,10))
@@ -48,7 +48,6 @@ def prep_gdp_future():
 
 
 def prep_gdp_future_year():
-    ssp = "ssp1"
     inpf = pd.read_csv("../dat/gdp/gdp_" + ssp + "_cnt.csv")
     out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2101))
     yl = [2020, 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100]
@@ -68,4 +67,25 @@ def prep_gdp_future_year():
     print(out)
     out.to_csv("../dat/gdp/gdp_" + ssp + "_cnt_year.csv")
 
-prep_gdp_future_year()
+#prep_gdp_future_year()
+
+
+def prep_gdp_per_cap_future_year():
+    inpf_gdp = pd.read_csv("../dat/gdp/gdp_" + ssp + "_cnt_year.csv")
+    inpf_pop = pd.read_csv("../dat/pop/pop_" + ssp + "_cnt_year.csv")
+    gdp_p = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")
+
+    out = pd.DataFrame(index=iso["ISO3"])
+    for yr in range(2020, 2101):
+        tmp = []
+        for i in range(len(inpf_gdp)):
+            tmp1 = gdp_p["2018"][i]
+            tmp2 = inpf_gdp["2020"][i] * 1000000000 / inpf_pop["2020"][i]
+            ratio = tmp1 / tmp2
+            tmp.append(ratio * inpf_gdp[str(yr)][i] * 1000000000 / inpf_pop[str(yr)][i])
+        out[str(yr)] = tmp
+        print(yr)
+        
+    out.to_csv("../dat/gdp/gdp_per_cap_" + ssp + ".csv")
+
+prep_gdp_per_cap_future_year()

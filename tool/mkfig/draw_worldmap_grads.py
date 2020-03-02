@@ -40,14 +40,17 @@ def filename(fn):
     elif fn == "out2":
         fin = "../out/multipleRegression_4values.csv"
         lab = "Estimated death rate by famine (% of the population)"
+    elif fn == "5yrs":
+        fin = "../out/dflt__rslt__5yrs__cnt.csv"
+        lab = "Famine valunerable countries (1961 - 2015)"
 
     return [fin, lab]
 
 ### edit here   (select from aws, gdp, gpi, unr, upp)
-dataname = "gdp"
-logscale = True
-saveflag = False
-color = "Blues"
+dataname = "5yrs"
+logscale = False
+saveflag = True
+color = "Reds"
 
 ### input data
 fn = filename(dataname)
@@ -56,7 +59,7 @@ df=df.fillna(0)
 iso3=df["ISO3"]
 
 ### get average
-data=df.mean(axis="columns")
+data=df.sum(axis="columns")
 fn_out=fn[1]
 m = data.max()
 
@@ -64,7 +67,7 @@ def area(ax, iso, clr):    ### coloring function
     shp = shpreader.natural_earth(resolution='50m',category='cultural',
                                   name='admin_0_countries')
     reader = shpreader.Reader(shp)
-    for n in reader.records() :
+    for n in reader.records():
         if n.attributes['ISO_A3'] == iso: 
             ax.add_geometries(n.geometry, ccrs.PlateCarree(), facecolor=clr, 
                               alpha = 1.00, linewidth =0.15, edgecolor = "black",

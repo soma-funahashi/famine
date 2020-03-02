@@ -8,8 +8,8 @@ yrs=np.arange(1961,2019)                              # year
 
 ### input file
 iso = pd.read_csv("../dat/nat/nationCode.csv")
-df1 = pd.read_csv("../dat/cor/correlation_data.csv")       # data of correlation b/w AWI and AP
-df2 = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")            # data of GDP per capita
+df1 = pd.read_csv("../dat/cor/correlation_data.csv")       # data of correlation b/w AWS and VAP
+df2 = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")     # data of GDP per capita
 df3 = pd.read_csv("../dat/upp/upp_new.csv")                # data of urban population rate
 
 ### main function
@@ -27,9 +27,9 @@ def main():
             avl  = df2.mean()
             print(avl[yr-1961])
             for i in range(len(df1)):
-                if df1["cor"][i] >= 0.10:
+                if df1["cor"][i] >= 0.15:
                     if df2[str(yr)][i] < avl[yr-1961]:
-                        if float(df3[str(yr)][i]) < 60:
+                        if float(df3[str(yr)][i]) < 30:
                             tmp1.append(3)
                             tmp2.append(cnt[i])
                         else:

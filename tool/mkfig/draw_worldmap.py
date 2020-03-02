@@ -1,9 +1,3 @@
-###########################################################
-#to          : template for drawing world map
-#by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/10/15
-###########################################################
-
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature

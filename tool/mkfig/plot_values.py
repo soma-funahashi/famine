@@ -1,7 +1,7 @@
 ###########################################################
 #to          : plot two data
 #by          : Soma Funahashi, U-Tokyo, IIS
-#last update : 2019/11/29
+#last update : 2020/02/25
 ###########################################################
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,7 +22,7 @@ def filename(fn):
         fin = "gpi/global_peace_index.csv"
         lab = "Global Peace Index"
     elif fn == "upp":
-        fin = "upp/urban_population.csv"
+        fin = "upp/upp_new_filled.csv"
         lab = "Urban population rate"
     elif fn == "unr":
         fin = "unr/undernourishment.csv"
@@ -36,12 +36,18 @@ def filename(fn):
     elif fn == "uppf":
         fin = "../dat/upp/upp_future.csv"
         lab = "Urban population (Future)"
+    elif fn == "imp":
+        fin = "../dat/gdp/import_inp_filled.csv"
+        lab = "Imported Value / GDP (%)"
+    elif fn == "imppc":
+        fin = "../dat/gdp/imported_value_per_cap.csv"
+        lab = "Imported Value per capita (current USD)"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
 xdata = "gdp"
-ydata = "cor"
+ydata = "unr"
 logscale = True
 
 ### input data
@@ -56,28 +62,56 @@ tmp2 = []
 tmp1 = df1.mean(axis="columns")
 tmp2 = df2.mean(axis="columns")
 
+
 ### model output
-prj = "dflt"
-#df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
-val = df3["Result"]
+prj = "drgt"
+df3 = pd.read_csv("../../out/"+prj+"____rslt.csv")
+df4 = pd.read_csv("../../dat/fam/famineData_drought.csv")
+val3 = df3.values
+val4 = df4.values
+tmp3 = []
+tmp4 = []
+
+for i in range(len(df3)):
+    mx = 0
+    for j in range(1, df3.shape[1]):
+        mx = max(val3[i][j], mx)
+    tmp3.append(mx)
+    mx = 0
+    for j in range(1, df4.shape[1]):
+        mx = max(val4[i][j], mx)
+    tmp4.append(mx)
 
 
 ### plotting
 plt.figure()
+#plt.scatter(tmp1, tmp2, color="black", alpha=0.3, edgecolor=None)
 
-for i in range(len(val)):
-    if val[i] == "n":
-        plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
-    elif val[i] == "m":
-        plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
-#       plt.scatter(tmp1[i],tmp2[i], color="tomato", alpha=0.3, edgecolor=None)
-    elif val[i] == "o":
-        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.3, edgecolor=None)
-        print(df3["ISO3"][i],tmp1[i],tmp2[i])
-#       plt.scatter(tmp1[i],tmp2[i], color="royalblue", alpha=0.3, edgecolor=None)
-    else:
-        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.3, edgecolor=None)
-        print(df3["ISO3"][i],np.round(tmp1[i],3),np.round(tmp2[i],3))
+for i in range(len(df3)):
+    if tmp3[i] == 3 and tmp4[i] == 1:
+        plt.scatter(tmp1[i],tmp2[i], color="purple", alpha=0.5, edgecolor=None)
+    elif tmp3[i] == 3 and tmp4[i] != 1:
+        plt.scatter(tmp1[i],tmp2[i], color="blue", alpha=0.5, edgecolor=None)
+    elif tmp3[i] != 3 and tmp4[i] == 1:
+        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.5, edgecolor=None)
+    elif tmp3[i] != 3 and tmp4[i] != 1:
+        plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.5, edgecolor=None)
+
+
+# for i in range(len(val)):
+#     if val[i] == "n":
+#         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
+#     elif val[i] == "m":
+#         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
+# #       plt.scatter(tmp1[i],tmp2[i], color="tomato", alpha=0.3, edgecolor=None)
+#     elif val[i] == "o":
+#         plt.scatter(tmp1[i],tmp2[i], color="brack", alpha=0.3, edgecolor=None)
+#         print(df3["ISO3"][i],tmp1[i],tmp2[i])
+# #       plt.scatter(tmp1[i],tmp2[i], color="royalblue", alpha=0.3, edgecolor=None)
+#     else:
+#         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.3, edgecolor=None)
+#         print(df3["ISO3"][i],np.round(tmp1[i],3),np.round(tmp2[i],3))
+
 
 if logscale:
     plt.xscale("log")

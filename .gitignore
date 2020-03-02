@@ -6,3 +6,4 @@ out/*
 */archived
 .DS_Store
 */nohup.out
+paper/*
