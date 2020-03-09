@@ -3,7 +3,7 @@ import numpy as np
 
 iso = pd.read_csv("../dat/nat/nationCode.csv")
 
-ssp = "ssp1"
+ssp = "ssp3"
 
 def prep_gdp_past():
     inp = pd.read_csv("../dat/gdp/gdp_per_cap_org.csv",skiprows=4)
@@ -44,8 +44,6 @@ def prep_gdp_future():
         out.loc[cnt] = tmp[4:]
     out.to_csv("../dat/gdp/gdp_" + ssp + "_cnt.csv")
 
-#prep_gdp_future()
-
 
 def prep_gdp_future_year():
     inpf = pd.read_csv("../dat/gdp/gdp_" + ssp + "_cnt.csv")
@@ -67,7 +65,7 @@ def prep_gdp_future_year():
     print(out)
     out.to_csv("../dat/gdp/gdp_" + ssp + "_cnt_year.csv")
 
-#prep_gdp_future_year()
+
 
 
 def prep_gdp_per_cap_future_year():
@@ -88,4 +86,30 @@ def prep_gdp_per_cap_future_year():
         
     out.to_csv("../dat/gdp/gdp_per_cap_" + ssp + ".csv")
 
-prep_gdp_per_cap_future_year()
+
+def prep_gdp_per_cap_fpi():
+    gdp = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")
+    fpi = pd.read_csv("../dat/fpi/food_price_index_nominal_real_mar.csv", skiprows = 3)
+    print(fpi)
+    fpi_list = []
+    for i in range(len(fpi)):
+        fpi_list.append(fpi.iat[i, 1])
+    
+    out = pd.DataFrame(index=iso["ISO3"])
+    for yr in range(1960, 2019):
+        tmp = []
+        for i in range(len(gdp)):
+            ratio = fpi_list[yr - 1960] / 100
+            tmp.append(gdp[str(yr)][i] / ratio)
+        out[str(yr)] = tmp
+        print(yr)
+    out.to_csv("../dat/fpi/gdp_per_cap_fpi.csv")
+
+
+
+
+prep_gdp_per_cap_fpi()
+
+#prep_gdp_future_year()
+#prep_gdp_per_cap_future_year()
+#prep_gdp_future()

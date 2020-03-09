@@ -4,8 +4,7 @@ import csv
 
 ### setting
 prj="futr"                                            # project name (4 letters)
-ssp = 'ssp1'
-
+ssp = 'ssp3'
 
 ### input file
 iso = pd.read_csv("../dat/nat/nationCode.csv")

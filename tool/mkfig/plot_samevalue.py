@@ -54,23 +54,26 @@ def filename(fn):
     elif fn == "imppc":
         fin = "../dat/gdp/imported_value_per_cap.csv"
         lab = "Imported Value per capita (current USD)"
-
+    elif fn == "fpi":
+        fin = "../dat/fpi/gdp_per_cap_fpi.csv"
+        lab = "GDP per cap / Food Price index"
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "gdp"
+dataname = "fpi"
 logscale = True
-saveflag = True
+saveflag = False
+famcheck = True   ### set True for the past dataset
 
 
 ### input data
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
+syr = int(df.columns[1])
 dfp = df.values
 dff = pd.read_csv("../../dat/fam/famineDataNumberRate_drought.csv")
 dff = dff.set_index("ISO3")
-  
 dfg = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
 fam = pd.read_csv("../../dat/fam/famineData_drought.csv")
 fam = fam.sum(axis=1)
@@ -104,13 +107,13 @@ for i in range(1,len(dfp)):
     else:
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
 
-
-# for y in range(1961,2019):
-#    for i in range(len(dfp)):
-#       cnt = df["ISO3"][i]
-#       print(cnt)
-#       if dff.loc[cnt, str(y)] != 0:
-#           plt.scatter(y, dfp[i][y-1961], color="Red", s=dff.loc[cnt,str(y)] * 5000, alpha=0.5, linewidths=None, zorder=100)
+if famcheck:
+    for y in range(1961,2019):
+        for i in range(len(dff)):
+            cnt = df["ISO3"][i]
+            print(cnt)
+            if dff.loc[cnt, str(y)] != 0:
+                plt.scatter(y, dfp[i][y - syr + 1], color="Red", s=dff.loc[cnt,str(y)] * 5000, alpha=0.5, linewidths=None, zorder=100)
 
 # plt.scatter(1965, 300, color="Red", s=0.01*5000, alpha=0.5, linewidths=None, zorder=100)
 # plt.scatter(1965, 275, color="Red", s=0.05*5000, alpha=0.5, linewidths=None, zorder=100)

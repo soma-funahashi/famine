@@ -37,7 +37,7 @@ def prep2():
 #prep2()
 
 def prep_pop_future():
-    ssp = "ssp1"
+    ssp = "ssp3"
     inp = pd.read_csv("../dat/pop/pop_" + ssp + ".csv")
     out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2110,10))
     for i in range(len(iso)):
@@ -60,7 +60,7 @@ def prep_pop_future():
 #prep_pop_future()
 
 def prep_gdp_future_year():
-    ssp = "ssp1"
+    ssp = "ssp3"
     inpf = pd.read_csv("../dat/pop/pop_" + ssp + "_cnt.csv")
     out = pd.DataFrame(index=iso["ISO3"], columns = np.arange(2020,2101))
     yl = [2020, 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100]
