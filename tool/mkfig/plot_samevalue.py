@@ -57,15 +57,25 @@ def filename(fn):
     elif fn == "fpi":
         fin = "../dat/fpi/gdp_per_cap_fpi.csv"
         lab = "GDP per cap / Food Price index"
+    elif fn == "lor":
+        fin = "../out/logisticRegression_gucd.csv"
+        lab = "Logistic Regression (GDP, UPR, Cor, Drought)"
+    elif fn == "sow":
+        fin = "../dat/sow/soilmois_cropland.csv"
+        lab = "Soil Moisture in cropland (1961 - 2019)"
+    elif fn == "gin":
+        fin = "../dat/gin/gini_coeff.csv"
+        lab = "Gini Coefficient"
+
+
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "fpi"
+dataname = "gdp"
 logscale = True
 saveflag = False
 famcheck = True   ### set True for the past dataset
-
 
 ### input data
 fn = filename(dataname)

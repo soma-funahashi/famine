@@ -6,7 +6,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import seaborn as sns
+sns.set(style="whitegrid")
+sns.set(style="ticks")
 
 def filename(fn):
     if fn == "aws":
@@ -42,12 +44,15 @@ def filename(fn):
     elif fn == "imppc":
         fin = "../dat/gdp/imported_value_per_cap.csv"
         lab = "Imported Value per capita (current USD)"
+    elif fn == "gin":
+        fin = "../dat/gin/gini_coeff_ave.csv"
+        lab = "Gini Coefficient"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
 xdata = "gdp"
-ydata = "unr"
+ydata = "cor"
 logscale = True
 
 ### input data
@@ -64,7 +69,7 @@ tmp2 = df2.mean(axis="columns")
 
 
 ### model output
-prj = "drgt"
+prj = "dflt"
 df3 = pd.read_csv("../../out/"+prj+"____rslt.csv")
 df4 = pd.read_csv("../../dat/fam/famineData_drought.csv")
 val3 = df3.values
@@ -84,16 +89,22 @@ for i in range(len(df3)):
 
 
 ### plotting
-plt.figure()
+plt.figure(figsize=(7,6))
 #plt.scatter(tmp1, tmp2, color="black", alpha=0.3, edgecolor=None)
 
 for i in range(len(df3)):
     if tmp3[i] == 3 and tmp4[i] == 1:
-        plt.scatter(tmp1[i],tmp2[i], color="purple", alpha=0.5, edgecolor=None)
+#       plt.scatter(tmp1[i],tmp2[i], color="purple", alpha=0.5, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.5, edgecolor=None)
+        #plt.text(tmp1[i], tmp2[i], df1["ISO3"][i], color="red")
+        print(df1["ISO3"][i], tmp1[i], tmp2[i])
     elif tmp3[i] == 3 and tmp4[i] != 1:
-        plt.scatter(tmp1[i],tmp2[i], color="blue", alpha=0.5, edgecolor=None)
+#       plt.scatter(tmp1[i],tmp2[i], color="blue", alpha=0.5, edgecolor=None)
+        plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.5, edgecolor=None)
     elif tmp3[i] != 3 and tmp4[i] == 1:
         plt.scatter(tmp1[i],tmp2[i], color="red", alpha=0.5, edgecolor=None)
+        #plt.text(tmp1[i], tmp2[i], df1["ISO3"][i], color="red")
+        print(df1["ISO3"][i], tmp1[i], tmp2[i])
     elif tmp3[i] != 3 and tmp4[i] != 1:
         plt.scatter(tmp1[i],tmp2[i], color="black", alpha=0.5, edgecolor=None)
 
@@ -116,6 +127,7 @@ for i in range(len(df3)):
 if logscale:
     plt.xscale("log")
 
+plt.xlim(100,)
 plt.xlabel(xfn[1])
 plt.ylabel(yfn[1])
 plt.savefig("../../fig/plt/"+prj+"____"+xdata+"_"+ydata+".png")

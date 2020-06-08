@@ -7,6 +7,7 @@ import pandas as pd
 from matplotlib.colors import Normalize
 import matplotlib.colors as colors
 from matplotlib.cm import ScalarMappable
+import seaborn as sns; sns.set()
 
 
 def filename(fn):
@@ -43,11 +44,17 @@ def filename(fn):
     elif fn == "5yrs":
         fin = "../out/dflt__rslt__5yrs__cnt.csv"
         lab = "Famine valunerable countries (1961 - 2015)"
+    elif fn == "sow":
+        fin = "../dat/sow/soilmois_cropland.csv"
+        lab = "Soil Moisture in cropland (%, 1948 - 2019)"
+    elif fn == "gin":
+        fin = "../dat/gin/gini_coeff_ave.csv"
+        lab = "Gini Coefficient (ave. 1960 - 2019)"
 
     return [fin, lab]
 
 ### edit here   (select from aws, gdp, gpi, unr, upp)
-dataname = "5yrs"
+dataname = "gin"
 logscale = False
 saveflag = True
 color = "Reds"
@@ -59,7 +66,8 @@ df=df.fillna(0)
 iso3=df["ISO3"]
 
 ### get average
-data=df.sum(axis="columns")
+#data=df.sum(axis="columns")
+data=df.mean(axis="columns")
 fn_out=fn[1]
 m = data.max()
 

@@ -8,6 +8,6 @@
 FILE=$1
 PORT="soma@rainbow.iis.u-tokyo.ac.jp"
 H08DIR="/work/a01/soma/H08_20190701/fig/"
-FAMDIR="/Users/SomaFunahashi/Documents/Oki_lab/2019/Master_thesis/fig/fromH08/"
+FAMDIR="/Users/SomaFunahashi/Documents/Oki_lab/Master/famine/fig/fromH08/"
 
 scp $PORT:$H08DIR$FILE $FAMDIR
