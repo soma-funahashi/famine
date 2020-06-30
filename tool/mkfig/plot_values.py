@@ -47,12 +47,15 @@ def filename(fn):
     elif fn == "gin":
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient"
+    elif fn == "war":
+        fin = "../dat/war/war_bool.csv"
+        lab = "War"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
 xdata = "gdp"
-ydata = "cor"
+ydata = "war"
 logscale = True
 
 ### input data
@@ -65,8 +68,7 @@ tmp1 = []
 tmp2 = []
 
 tmp1 = df1.mean(axis="columns")
-tmp2 = df2.mean(axis="columns")
-
+tmp2 = df2.max(axis="columns")
 
 ### model output
 prj = "dflt"
@@ -127,7 +129,7 @@ for i in range(len(df3)):
 if logscale:
     plt.xscale("log")
 
-plt.xlim(100,)
+#plt.xlim(100,)
 plt.xlabel(xfn[1])
 plt.ylabel(yfn[1])
 plt.savefig("../../fig/plt/"+prj+"____"+xdata+"_"+ydata+".png")

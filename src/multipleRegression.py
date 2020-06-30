@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 gdp = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")
 upp = pd.read_csv("../dat/upp/upp_new_filled.csv")
 cor = pd.read_csv("../dat/cor/correlation_data.csv")
-fam = pd.read_csv("../dat/fam/famineDataNumberRate_drought.csv")
+fam = pd.read_csv("../dat/fam/famineDataNumberRate.csv")
 
 #gpi = pd.read_csv("../dat/gpi/global_peace_index_filled.csv")
 #gpi = gpi.mean(axis="columns")

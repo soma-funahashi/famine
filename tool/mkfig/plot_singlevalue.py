@@ -55,34 +55,39 @@ def filename(fn):
         fin = "../dat/gdp/imported_value_per_cap.csv"
         lab = "Imported Value per capita (current USD)"
     elif fn == "fpi":
-        fin = "../dat/fpi/gdp_per_cap_fpi.csv"
+        fin = "../dat/fpi/gdp_per_cap_fpi_st.csv"
         lab = "GDP per cap / Food Price index"
     elif fn == "lor":
-        fin = "../out/logisticRegression_gucd.csv"
-        lab = "Logistic Regression (GDP, UPR, Cor, Drought)"
+        fin = "../out/logisticRegression_guci.csv"
+        lab = "Logistic Regression (GDP, UPR, Cor, Gini)"
     elif fn == "sow":
-        fin = "../dat/sow/soilmois_cropland.csv"
-        lab = "Soil Moisture in cropland (1961 - 2019)"
+        fin = "../dat/sow/soilmois_cropland_ave_hist.csv"
+        lab = "Soil Moisture in cropland (1971 - 2019)"
+    elif fn == "sowf":
+        fin = "../dat/sow/soilmois_cropland_ave_rcp8p5.csv"
+        lab = "Soil Moisture in cropland (RCP8.5, 2005 - 2099)"
     elif fn == "gin":
         fin = "../dat/gin/gini_coeff.csv"
         lab = "Gini Coefficient"
-
+    elif fn == "war":
+        fin = "../dat/war/war.csv"
+        lab = "War"
 
     return [fin, lab]
 
 
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "gdp"
-logscale = True
+dataname = "war"
+logscale = False
 saveflag = False
-famcheck = True   ### set True for the past dataset
+famcheck = False   ### set True for the past dataset
 
 ### input data
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
 syr = int(df.columns[1])
 dfp = df.values
-dff = pd.read_csv("../../dat/fam/famineDataNumberRate_drought.csv")
+dff = pd.read_csv("../../dat/fam/famineDataNumberRate.csv")
 dff = dff.set_index("ISO3")
 dfg = pd.read_csv("../../dat/gpi/global_peace_index_filled.csv")
 fam = pd.read_csv("../../dat/fam/famineData_drought.csv")

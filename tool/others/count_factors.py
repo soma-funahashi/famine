@@ -14,18 +14,18 @@ array = np.arange(1840, 2020, 10)
 out = []
 
 for y in array:
-    tmp = [0] * 12
+    tmp = [0] * 11
     cnt = 0
     for i in range(len(dat)):
-        for j in range(3, 14): ## category
+        for j in range(3, 13): ## category
             if y <= dat[i][1] and dat[i][1] < y + 10:
                 tmp[j - 3] += dat[i][j]
                 cnt += 1
-    tmp[11] = cnt // 11
+    tmp[10] = cnt // 10
     print(y, tmp)
     out.append(tmp)
 
-out = np.array(out).reshape(len(array), 12)
+out = np.array(out).reshape(len(array), 11)
 
 #out = out.astype("int")
 print(out)

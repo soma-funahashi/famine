@@ -3,7 +3,7 @@ import numpy as np
 
 iso = pd.read_csv("../dat/nat/nationCode.csv")
 
-ssp = "ssp3"
+ssp = "ssp2"
 
 def prep_gdp_past():
     inp = pd.read_csv("../dat/gdp/gdp_per_cap_org.csv",skiprows=4)
@@ -67,7 +67,6 @@ def prep_gdp_future_year():
 
 
 
-
 def prep_gdp_per_cap_future_year():
     inpf_gdp = pd.read_csv("../dat/gdp/gdp_" + ssp + "_cnt_year.csv")
     inpf_pop = pd.read_csv("../dat/pop/pop_" + ssp + "_cnt_year.csv")
@@ -110,6 +109,6 @@ def prep_gdp_per_cap_fpi():
 
 prep_gdp_per_cap_fpi()
 
+#prep_gdp_future()
 #prep_gdp_future_year()
 #prep_gdp_per_cap_future_year()
-#prep_gdp_future()

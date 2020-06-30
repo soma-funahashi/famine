@@ -7,28 +7,29 @@ import matplotlib.pyplot as plt
 from sklearn.calibration import calibration_curve
 
 
-gdp = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")
-upp = pd.read_csv("../dat/upp/upp_new_filled.csv")
-cor = pd.read_csv("../dat/cor/correlation_data.csv")
-fam = pd.read_csv("../dat/fam/famineData_drought.csv")
-drt = pd.read_csv("../dat/sow/drought_flag_15.csv")
+gdp = pd.read_csv("../dat/fpi/gdp_per_cap_fpi_st.csv", index_col="ISO3")
+upp = pd.read_csv("../dat/upp/upp_new_filled_st.csv", index_col="ISO3")
+cor = pd.read_csv("../dat/cor/correlation_data_st.csv", index_col="ISO3")
+gin = pd.read_csv("../dat/gin/gini_coeff_ave_st.csv", index_col="ISO3")
+fam = pd.read_csv("../dat/fam/famineData_all.csv", index_col="ISO3")
+#drt = pd.read_csv("../dat/sow/drought_flag_15.csv")
 
 def main():
     gl = []
     ul = []
     cl = []
-    dl = []
+    il = []
     fl = []
     cnt = 0
     for i in range(len(gdp)):
-        for yr in range(1961,2019):
+        for yr in range(1960,2019):
 #           X.append([gdp.iat[i, yr - 1960], upp.iat[i, yr - 1960], cor.iat[i, 1]])
 #           X.append([gdp.iat[i, yr - 1960]])
 #           Y.append(fam.iat[i, yr - 1961])
-            gl.append(gdp.iat[i, yr - 1959])
-            ul.append(upp.iat[i, yr - 1959])
-            cl.append(cor.iat[i, 1])
-            dl.append(upp.iat[i, yr - 1960])
+            gl.append(gdp.iat[i, yr - 1960])
+            ul.append(upp.iat[i, yr - 1960])
+            cl.append(cor.iat[i, 0])
+            il.append(gin.iat[i, 0])
             fl.append(fam.iat[i, yr - 1960])
             cnt += 1
 
@@ -37,9 +38,9 @@ def main():
     X["gdp"] = gl
     X["upp"] = ul
     X["cor"] = cl
-    X["drt"] = dl
+    X["gin"] = il
     Y["fam"] = fl
-    vals = "gucd"
+    vals = "guci"
 
     
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0)
@@ -58,12 +59,12 @@ def main():
     for i in range(len(probs)):
         tmp.append(probs[i][1])
     tmp = np.array(tmp)
-    tmp = tmp.reshape([162, 58])
+    tmp = tmp.reshape([162, 59])
 
     print("shape =", tmp.shape)
 
-    out = pd.DataFrame(index = gdp["ISO3"])
-    for yr in range(1961, 2019):
+    out = pd.DataFrame(index = gdp.index)
+    for yr in range(1960, 2019):
         tmp2 = []
         for i in range(len(gdp)):
             tmp2.append(tmp[i][yr-1961])

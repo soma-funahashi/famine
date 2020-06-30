@@ -3,19 +3,19 @@ import pandas as pd
 import csv
 
 ### setting
-prj="futr"                                            # project name (4 letters)
-ssp = 'ssp3'
+prj="futr"          # project name (4 letters)
+ssp = "ssp1"
 
 ### input file
 iso = pd.read_csv("../dat/nat/nationCode.csv")
-cor = pd.read_csv("../dat/cor/correlation_data.csv")       # data of correlation b/w AWS and VAP
+cor = pd.read_csv("../dat/cor/correlation_data.csv")            # data of correlation b/w AWS and VAP
 gdp = pd.read_csv("../dat/gdp/gdp_per_cap_" + ssp + ".csv")     # data of GDP per capita
-upp = pd.read_csv("../dat/upp/upp_future.csv")                # data of urban population rate
+upp = pd.read_csv("../dat/upp/upp_future.csv")                  # data of urban population rate
 
 gdp_value = gdp.values
 upp_value = upp.values
 
-print(gdp_value.shape)
+print(ssp)
 
 ### main function
 def main():
@@ -27,8 +27,8 @@ def main():
         tmp2 = []
         tmp3 = []
         thr_cor = 0.10
-        thr_gdp = 700
-        thr_upp = 40
+        thr_gdp = 600
+        thr_upp = 50
         for i in range(len(cor)):
             if cor["cor"][i] >= thr_cor:
                 if gdp[str(yr)][i] <= thr_gdp:

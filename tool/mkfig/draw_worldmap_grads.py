@@ -47,16 +47,35 @@ def filename(fn):
     elif fn == "sow":
         fin = "../dat/sow/soilmois_cropland.csv"
         lab = "Soil Moisture in cropland (%, 1948 - 2019)"
+    elif fn == "sowf":
+        fin = "../dat/sow/soilmois_cropland_ave_hist.csv"
+        lab = "Soil Moisture in cropland (kg/m2, 1971-2004)"
     elif fn == "gin":
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient (ave. 1960 - 2019)"
+    elif fn == "ssp1":
+        fin = "../out/futr__rslt__cnt__ssp1.csv"
+        lab = "Number of famine vulnerable years (ssp1, 2020 - 2040)"
+    elif fn == "ssp2":
+        fin = "../out/futr__rslt__cnt__ssp2.csv"
+        lab = "Number of famine vulnerable years (ssp2, 2020 - 2040)"
+    elif fn == "ssp3":
+        fin = "../out/futr__rslt__cnt__ssp3.csv"
+        lab = "Number of famine vulnerable years (ssp3, 2020 - 2040)"
+    elif fn == "fam":
+        fin = "fam/famineData.csv"
+        lab = "Years of famine (1960 - 2019)"
+    elif fn == "war":
+        fin = "../dat/war/war_bool.csv"
+        lab = "Number of years when war happend (1940-2019)"
+
 
     return [fin, lab]
 
 ### edit here   (select from aws, gdp, gpi, unr, upp)
-dataname = "gin"
+dataname = "war"
 logscale = False
-saveflag = True
+saveflag = False
 color = "Reds"
 
 ### input data
@@ -65,9 +84,12 @@ df = pd.read_csv("../../dat/"+fn[0])
 df=df.fillna(0)
 iso3=df["ISO3"]
 
+fam = pd.read_csv("../../dat/fam/famineData.csv")
+fam_mean = fam.sum(axis = 1)
+
 ### get average
-#data=df.sum(axis="columns")
-data=df.mean(axis="columns")
+data=df.sum(axis="columns")
+#data=df.mean(axis="columns")
 fn_out=fn[1]
 m = data.max()
 
@@ -104,10 +126,16 @@ def fig():    ### drawing figure
     cax = fig.colorbar(mappable)
     for i in range(len(iso3)):
         n=iso3[i]
-        if logscale:
-            area(ax, n, cmap(np.log(float(data[i]))/np.log(m)))
-        else: 
-            area(ax, n, cmap(float(data[i])/m))
+        if fam_mean[i] > 0:
+            if logscale:
+                area(ax, n, cmap(np.log(float(data[i]))/np.log(m)))
+            else: 
+                area(ax, n, cmap(float(data[i])/m))
+        else:
+            if logscale:
+                area(ax, n, cmap(np.log(float(data[i]))/np.log(m)))
+            else: 
+                area(ax, n, cmap(float(data[i])/m))
 
     ax_pos = ax.get_position()
     cax_pos0 = cax.ax.get_position()
