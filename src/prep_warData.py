@@ -48,7 +48,7 @@ def trans(nam):
 
 def main():
     dic = {}
-    out = pd.DataFrame(index=iso["ISO3"], columns=np.arange(1940,2020), data=0)
+    out = pd.DataFrame(index=iso["ISO3"], columns=np.arange(1960,2020), data=0)
 
     print(out)
     for j in range(len(org)):
@@ -60,8 +60,10 @@ def main():
             nam = trans(nam)
             for i in range(len(iso)): 
                 if iso["Country"][i] == nam:
+                    if org["year"][j] < 1960:
+                        continue
                     #print(iso["ISO3"][i], org["year"][j])
-                    out.at[iso["ISO3"][i], org["year"][j]] += 1
+                    out.at[iso["ISO3"][i], org["year"][j]] = 1
                     flag = True
             if not flag:
                 print(nam, org["year"][j])
@@ -70,15 +72,65 @@ def main():
     print(dic)
 
 
-def war_bool():
+# def war_bool():
+#     inp = pd.read_csv("../dat/war/war.csv", index_col = "ISO3")
+#     out = pd.DataFrame(index=iso["ISO3"])
+#     for i in range(len(inp)):
+#         for y in inp.columns:
+#             if inp.at[iso["ISO3"][i], str(y)] > 0:
+#                 out.at[iso["ISO3"][i], str(y)] = 1
+#             else:
+#                 out.at[iso["ISO3"][i], str(y)] = 0
+#     out.to_csv("../dat/war/war_bool.csv")
+
+def war_ma():
     inp = pd.read_csv("../dat/war/war.csv", index_col = "ISO3")
     out = pd.DataFrame(index=iso["ISO3"])
     for i in range(len(inp)):
+        cnt = iso["ISO3"][i]
         for y in inp.columns:
-            if inp.at[iso["ISO3"][i], str(y)] > 0:
-                out.at[iso["ISO3"][i], str(y)] = 1
-            else:
-                out.at[iso["ISO3"][i], str(y)] = 0
-    out.to_csv("../dat/war/war_bool.csv")
+            y = int(y)
+            if 1961 < y and y < 2018:
+                out.at[cnt, str(y)] = (inp.at[cnt, str(y-2)]*1 + inp.at[cnt, str(y-1)]*2 + inp.at[cnt, str(y)]*3 + inp.at[cnt, str(y+1)]*2 + inp.at[cnt, str(y+2)]*1) / 9
+            elif y == 1961:
+                out.at[cnt, str(y)] = (inp.at[cnt, str(y-1)]*2 + inp.at[cnt, str(y)]*3 + inp.at[cnt, str(y+1)]*2 + inp.at[cnt, str(y+2)]*1) / 8
+            elif y == 2018:
+                out.at[cnt, str(y)] = (inp.at[cnt, str(y-2)]*1 + inp.at[cnt, str(y-1)]*2 + inp.at[cnt, str(y)]*3+ inp.at[cnt, str(y+1)]*2) / 8
+            elif y == 1960:
+                out.at[cnt, str(y)] = (inp.at[cnt, str(y)]*3 + inp.at[cnt, str(y+1)]*2 + inp.at[cnt, str(y+2)]*1) / 6
+            elif y == 2019:
+                out.at[cnt, str(y)] = (inp.at[cnt, str(y-2)]*1 + inp.at[cnt, str(y-1)]*2 + inp.at[cnt, str(y)]*3) / 6
+    print(out)
+    out.to_csv("../dat/war/war_wma.csv")
 
-war_bool()
+#main()
+#war_ma()
+
+
+def prep_war_5yrs(): # average of 5 years
+    war = pd.read_csv("../dat/war/war.csv")
+    out_sum = pd.DataFrame(index=iso["ISO3"])
+    out_max = pd.DataFrame(index=iso["ISO3"])
+    for i in range(len(war)):
+        for y in range(1961, 2016, 5):
+            print(i, y)
+            tmp = war.loc[i, str(y):str(y+4)]
+            out_sum.loc[iso["ISO3"][i], str(y)] = tmp.sum()
+            out_max.loc[iso["ISO3"][i], str(y)] = tmp.max()
+    out_sum.to_csv("../dat/war/war_5yrs_sum.csv")
+    out_max.to_csv("../dat/war/war_5yrs_max.csv")
+
+#prep_war_5yrs()
+
+def prep_war_prob():
+    inp = pd.read_csv("../dat/war/war.csv", index_col = "ISO3")
+    out = pd.DataFrame(index=iso["ISO3"])
+    n = len(inp.columns)
+    tmp = []
+    for i in range(len(inp)):
+        tmp.append(inp.sum(axis=1)[i]/n)
+    out["prob"] = tmp
+    print(out)
+    out.to_csv("../dat/war/war_prob.csv")
+
+prep_war_prob()

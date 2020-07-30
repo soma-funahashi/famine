@@ -48,14 +48,32 @@ def filename(fn):
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient"
     elif fn == "war":
-        fin = "../dat/war/war_bool.csv"
+        fin = "../dat/war/war.csv"
         lab = "War"
+    elif fn == "warp":
+        fin = "../dat/war/war_prob.csv"
+        lab = "War (occurence probability)"
+    elif fn == "fpr":
+        fin = "../dat/fpr/cereal_import_dependency.csv"
+        lab = "Cereal import dependency (%, 2001-2016)"
+    elif fn == "vap":
+        fin = "../dat/vap/vap_per_capita.csv"
+        lab = "Value of Agricultural Production"
+    elif fn == "vappc":
+        fin = "vap/vap_per_capita.csv"
+        lab = "Value of Agricultural Production per capita (Int.100$/year)"
+    elif fn == "sow":
+        fin = "../dat/sow/soilmois_cropland_kg_merged.csv"
+        lab = "Soil Moisture"
+    elif fn == "lor":
+        fin = "../out/logisticRegression_all.csv"
+        lab = "Logistic Regression"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
 xdata = "gdp"
-ydata = "war"
+ydata = "gin"
 logscale = True
 
 ### input data
@@ -68,7 +86,7 @@ tmp1 = []
 tmp2 = []
 
 tmp1 = df1.mean(axis="columns")
-tmp2 = df2.max(axis="columns")
+tmp2 = df2.mean(axis="columns")
 
 ### model output
 prj = "dflt"

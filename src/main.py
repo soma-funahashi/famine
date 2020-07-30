@@ -4,13 +4,15 @@ import csv
 
 ### setting
 prj="drgt"                                            # project name (4 letters)
-yrs=np.arange(1961,2019)                              # year
+yrs=np.arange(1961,2015)                              # year
 
 ### input file
 iso = pd.read_csv("../dat/nat/nationCode.csv")
 df1 = pd.read_csv("../dat/cor/correlation_data.csv")       # data of correlation b/w AWS and VAP
-df2 = pd.read_csv("../dat/gdp/gdp_per_cap_filled.csv")     # data of GDP per capita
-df3 = pd.read_csv("../dat/upp/upp_new.csv")                # data of urban population rate
+df2 = pd.read_csv("../dat/fpi/gdp_per_cap_fpi.csv")     # data of GDP per capita
+df3 = pd.read_csv("../dat/upp/upp_new_filled.csv")                # data of urban population rate
+sow = pd.read_csv("../dat/sow/soilmois_cropland_kg.csv")
+war = pd.read_csv("../dat/war/war_wma.csv")
 
 ### main function
 def main():
@@ -27,7 +29,7 @@ def main():
             avl  = df2.mean()
             print(avl[yr-1961])
             for i in range(len(df1)):
-                if df1["cor"][i] >= 0.15:
+                if sow[str(yr)][i] < 100 or df1["cor"][i] >= 0.15 or war[str(yr)][i] > 0:
                     if df2[str(yr)][i] < avl[yr-1961]:
                         if float(df3[str(yr)][i]) < 30:
                             tmp1.append(3)
@@ -54,7 +56,7 @@ def validation():
 #   fam = pd.read_csv('../dat/fam/famineDataNumberRate.csv')
     fam = pd.read_csv('../dat/fam/famineDataNumberRate_drought.csv')
     for i in range(len(rsl)):
-        for y in range(1961, 2018):
+        for y in range(1961, 2015):
             if rsl.iloc[i][y-1960] != 3 and float(fam.iloc[i][y-1960]) > 0:
                 print(y, rsl["ISO3"][i], rsl.iloc[i][y-1960], round(df1["cor"][i],2), round(df2.iloc[i][y-1960],2), round(df3[str(y)][i],2))
 
@@ -73,7 +75,7 @@ def count():
     def check(y,rsl):
         return y, rsl["ISO3"][i], rsl.iloc[i][y-1960], round(df1["cor"][i],2), round(df2.iloc[i][y-1960],2), round(df3.iloc[i][y-1960],2)
 
-    for y in range(1961,2019):
+    for y in range(1961,2015):
         for i in range(len(df_obs)):
             if df_obs[str(y)][i] == 1 and df_sim[str(y)][i] == 3:
                 cnt_os_11 += 1

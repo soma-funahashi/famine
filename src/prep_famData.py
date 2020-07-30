@@ -24,7 +24,7 @@ def famineData():
 
     out.to_csv("../dat/fam/" + nam + suf + ".csv")
 
-famineData()
+#famineData()
 
 def famineDataNumber():
     out=pd.DataFrame(index=iso["ISO3"], columns=np.arange(1960,2020))
@@ -42,7 +42,7 @@ def famineDataNumber():
                 out.loc[[cnt],[k]]=int(cas)
     out.to_csv("../dat/fam/" + nam + "Number" + suf + ".csv")
 
-famineDataNumber()
+#famineDataNumber()
 
 
 
@@ -56,4 +56,35 @@ def famineDataNumberRate():
 
     out.to_csv("../dat/fam/famineDataNumberRate" + suf + ".csv")
 
-famineDataNumberRate()
+#famineDataNumberRate()
+
+
+def prep_fam_5yrs(): # average of 5 years
+    fam = pd.read_csv("../dat/fam/famineData_all.csv")
+    out_sum = pd.DataFrame(index=iso["ISO3"])
+    out_max = pd.DataFrame(index=iso["ISO3"])
+    for i in range(len(fam)):
+        for y in range(1961, 2016, 5):
+            print(i, y)
+            tmp = fam.loc[i, str(y):str(y+4)]
+            out_sum.loc[iso["ISO3"][i], str(y)] = tmp.sum()
+            out_max.loc[iso["ISO3"][i], str(y)] = tmp.max()
+    out_sum.to_csv("../dat/fam/fam_5yrs_sum.csv")
+    out_max.to_csv("../dat/fam/fam_5yrs_max.csv")
+
+#prep_fam_5yrs()
+
+def prep_fam_around():
+    fam = pd.read_csv("../dat/fam/famineData_all.csv")
+    out = pd.DataFrame(index = iso["ISO3"], columns=np.arange(1961,2015).astype(str))
+    r = 3
+    for y in range(1961, 2015):
+        for i in range(len(iso)):
+            if fam[str(y)][i] == 1:
+                for k in range(0, r):
+                    out[str(max(y-k, 1961))][i] = 1
+                    out[str(min(y+k, 2014))][i] = 1
+    out = out.fillna(0)
+    out.to_csv("../dat/fam/famineData_around.csv")
+
+prep_fam_around()

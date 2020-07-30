@@ -30,14 +30,14 @@ def main(cnl):
         print(a)
     out.to_csv("../dat/vap/vap_org.csv")
 
-main(prep_cnl())
+#main(prep_cnl())
 
 def prep2():
     iso = pd.read_csv("../dat/nat/nationCode.csv")
     fin = pd.read_csv("../dat/vap/vap_org.csv")
     out = pd.DataFrame(index = iso["ISO3"], columns=np.arange(1961,2019))
     for i in range(len(iso)):
-        for k in range(len(fin)): 
+        for k in range(len(fin)):
             if iso["Country"][i] == fin["Country"][k]:
                 for y in range(1961,2019):
                     out[y][i] = fin[str(y)][k]
@@ -46,3 +46,20 @@ def prep2():
     print(out)
 
 #prep2()
+
+
+def calc_vap_per_capita():
+    vap = pd.read_csv("../dat/vap/vap_inp_archived.csv")
+    vap = vap.fillna(0)
+    pop = pd.read_csv("../dat/pop/population_inp.csv")
+    out = pd.DataFrame(index=vap["ISO3"])
+
+    for y in range(1961, 2017):
+        tmp = []
+        for i in range(len(vap)):
+            tmp.append(vap[str(y)][i] / pop[str(y)][i] * 100)
+        out[str(y)] = tmp
+    print(out)
+    out.to_csv("../dat/vap/vap_per_capita.csv")
+
+calc_vap_per_capita()

@@ -23,7 +23,7 @@ def calc_cor():
         tmp.append(res[0][1])
         print(df0["ISO3"][i],res[0][1])
     out["cor"] = tmp
-    out.to_csv("../dat/cor/correlation_data.csv")
+    # out.to_csv("../dat/cor/correlation_data.csv")
 calc_cor()
 
 def check_cor():

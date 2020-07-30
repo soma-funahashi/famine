@@ -4,7 +4,7 @@ import csv
 
 ### setting
 prj="futr"          # project name (4 letters)
-ssp = "ssp1"
+ssp = "ssp3"
 
 ### input file
 iso = pd.read_csv("../dat/nat/nationCode.csv")
@@ -26,8 +26,8 @@ def main():
         tmp1 = []
         tmp2 = []
         tmp3 = []
-        thr_cor = 0.10
-        thr_gdp = 600
+        thr_cor = 0.1
+        thr_gdp = 750
         thr_upp = 50
         for i in range(len(cor)):
             if cor["cor"][i] >= thr_cor:

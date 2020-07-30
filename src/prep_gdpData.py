@@ -105,9 +105,20 @@ def prep_gdp_per_cap_fpi():
     out.to_csv("../dat/fpi/gdp_per_cap_fpi.csv")
 
 
+def prep_gdp_per_cap_fpi_5yrs(): # average of 5 years
+    fpi = pd.read_csv("../dat/fpi/gdp_per_cap_fpi.csv")
+    out_mean = pd.DataFrame(index=iso["ISO3"])
+    out_min = pd.DataFrame(index=iso["ISO3"])
+    for i in range(len(fpi)):
+        for y in range(1961, 2016, 5):
+            print(i, y)
+            fpi_tmp = fpi.loc[i, str(y):str(y+4)]
+            out_mean.loc[iso["ISO3"][i], str(y)] = fpi_tmp.mean()
+            out_min.loc[iso["ISO3"][i], str(y)] = fpi_tmp.min()
+    out_mean.to_csv("../dat/fpi/gdp_per_cap_fpi_5yrs_mean.csv")
+    out_min.to_csv("../dat/fpi/gdp_per_cap_fpi_5yrs_min.csv")
 
-
-prep_gdp_per_cap_fpi()
+prep_gdp_per_cap_fpi_5yrs()
 
 #prep_gdp_future()
 #prep_gdp_future_year()

@@ -45,11 +45,11 @@ def filename(fn):
         fin = "../out/dflt__rslt__5yrs__cnt.csv"
         lab = "Famine valunerable countries (1961 - 2015)"
     elif fn == "sow":
-        fin = "../dat/sow/soilmois_cropland.csv"
-        lab = "Soil Moisture in cropland (%, 1948 - 2019)"
+        fin = "../dat/sow/soilmois_cropland_kg.csv"
+        lab = "Soil Moisture in cropland(kg per m2, 1961-2014)"
     elif fn == "sowf":
         fin = "../dat/sow/soilmois_cropland_ave_hist.csv"
-        lab = "Soil Moisture in cropland (kg/m2, 1971-2004)"
+        lab = "Soil Moisture in cropland(kg per m2, 1971-2004)"
     elif fn == "gin":
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient (ave. 1960 - 2019)"
@@ -68,30 +68,43 @@ def filename(fn):
     elif fn == "war":
         fin = "../dat/war/war_bool.csv"
         lab = "Number of years when war happend (1940-2019)"
-
+    elif fn == "fpr":
+        fin = "../dat/fpr/cereal_import_dependency.csv"
+        lab = "Cereal import dependency (%, 2001-2016)"
+    elif fn == "lor":
+        fin = "../out/logisticRegression_all.csv"
+        lab = "Logistic Regression (prob. 1961-2015)"
+    elif fn == "lorf":
+        fin = "../out/logisticRegression_all_future_ssp1_rcp4p5.csv"
+        lab = "Logistic Regression (prob. 2030, SSP1)"
+    elif fn == "pdi":
+        fin = "../dat/pdi/mod3_pdsi.csv"
+        lab = "Palmer's Drought Severity Index (1961 - 2018)"
 
     return [fin, lab]
 
 ### edit here   (select from aws, gdp, gpi, unr, upp)
-dataname = "war"
+dataname = "pdi"
 logscale = False
 saveflag = False
-color = "Reds"
+color = "Oranges"
 
 ### input data
 fn = filename(dataname)
 df = pd.read_csv("../../dat/"+fn[0])
-df=df.fillna(0)
-iso3=df["ISO3"]
+df = df.fillna(0)
+iso3 = df["ISO3"]
 
 fam = pd.read_csv("../../dat/fam/famineData.csv")
 fam_mean = fam.sum(axis = 1)
 
 ### get average
-data=df.sum(axis="columns")
-#data=df.mean(axis="columns")
+#data=df.sum(axis="columns")
+data=df.mean(axis="columns")
+
 fn_out=fn[1]
-m = data.max()
+mx = data.max()
+mn = data.min()
 
 def area(ax, iso, clr):    ### coloring function
     shp = shpreader.natural_earth(resolution='50m',category='cultural',
@@ -118,9 +131,9 @@ def fig():    ### drawing figure
     ### setting colormap
     cmap=plt.get_cmap(color)
     if logscale:
-        norm = colors.SymLogNorm(linthresh=1.1, linscale=1.1, vmin=0, vmax=m)
+        norm = colors.SymLogNorm(linthresh=1.1, linscale=1.1, vmin=0, vmax=mx)
     else:
-        norm = Normalize(vmin=0, vmax=m)
+        norm = Normalize(vmin=mn, vmax=mx)
     mappable = ScalarMappable(cmap=cmap, norm=norm)
     mappable._A = []
     cax = fig.colorbar(mappable)
@@ -128,19 +141,20 @@ def fig():    ### drawing figure
         n=iso3[i]
         if fam_mean[i] > 0:
             if logscale:
-                area(ax, n, cmap(np.log(float(data[i]))/np.log(m)))
+                area(ax, n, cmap(np.log(float(data[i]))/np.log(mx)))
             else: 
-                area(ax, n, cmap(float(data[i])/m))
+                area(ax, n, cmap(float(data[i])/mx))
         else:
             if logscale:
-                area(ax, n, cmap(np.log(float(data[i]))/np.log(m)))
+                area(ax, n, cmap(np.log(float(data[i]))/np.log(mx)))
             else: 
-                area(ax, n, cmap(float(data[i])/m))
+                area(ax, n, cmap(float(data[i])/mx))
 
     ax_pos = ax.get_position()
     cax_pos0 = cax.ax.get_position()
     cax_pos1 = [cax_pos0.x0, ax_pos.y0, cax_pos0.x1 - cax_pos0.x0, ax_pos.y1 - ax_pos.y0]
     cax.ax.set_position(cax_pos1)
+
     if saveflag:
         plt.savefig("../../fig/"+dataname+"/"+fn_out+".png", dpi=300, bbox_inches="tight")
     plt.show()

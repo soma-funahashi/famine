@@ -25,6 +25,22 @@ def prep_upp_past():
         out[str(yr)] = tmp
     out.to_csv("../dat/upp/upp_new.csv")
 
+def prep_upp_5yrs(): # average of 5 years
+    upp = pd.read_csv("../dat/upp/upp_new_filled.csv")
+    out_mean = pd.DataFrame(index=iso["ISO3"])
+    out_min = pd.DataFrame(index=iso["ISO3"])
+    for i in range(len(upp)):
+        for y in range(1961, 2016, 5):
+            print(i, y)
+            tmp = upp.loc[i, str(y):str(y+4)]
+            out_mean.loc[iso["ISO3"][i], str(y)] = tmp.mean()
+            out_min.loc[iso["ISO3"][i], str(y)] = tmp.min()
+    out_mean.to_csv("../dat/upp/upp_5yrs_mean.csv")
+    out_min.to_csv("../dat/upp/upp_5yrs_min.csv")
+
+prep_upp_5yrs()
+
+
 
 def prep_upp_future():
     inpf = pd.read_csv("../dat/upp/upp_future_org.csv")
@@ -46,4 +62,4 @@ def prep_upp_future():
                 out.loc[iso["ISO3"][k]] = tmp
     print(out)
     out.to_csv("../dat/upp/upp_future.csv")
-prep_upp_future()
+#prep_upp_future()

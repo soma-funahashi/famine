@@ -7,8 +7,8 @@ def filename(fn):
         fin = "aws/mod2_SupAgr__WFDELECD.csv"
         lab = "Agricultural water input"
     elif fn == "gdp":
-        fin = "gdp/gdp_per_cap.csv"
-        lab = "GDP per capita"
+        fin = "fpi/gdp_per_cap_fpi.csv"
+        lab = "GDP per capita (fpi)"
     elif fn == "gdpf":
         fin = "gdp/gdp_ssp1_cnt_year.csv"
         lab = "GDP in the future (SSP1)"
@@ -19,7 +19,7 @@ def filename(fn):
         fin = "gpi/global_peace_index.csv"
         lab = "Global Peace Index"
     elif fn == "upp":
-        fin = "upp/urban_population.csv"
+        fin = "upp/upp_new_filled.csv"
         lab = "Urban population rate"
     elif fn == "unr":
         fin = "unr/undernourishment.csv"
@@ -34,7 +34,7 @@ def filename(fn):
         fin = "vap/vap_per_capita.csv"
         lab = "Value of Agricultural Production per capita (Int.100$/year)"
     elif fn == "out":
-        fin = "../out/multipleRegression_3values.csv"
+        fin = "../out/multipleRegression.csv"
         lab = "Estimated death rate by famine (% of the population)"
     elif fn == "out2":
         fin = "../out/multipleRegression_drought_gdp.csv"
@@ -55,14 +55,14 @@ def filename(fn):
         fin = "../dat/gdp/imported_value_per_cap.csv"
         lab = "Imported Value per capita (current USD)"
     elif fn == "fpi":
-        fin = "../dat/fpi/gdp_per_cap_fpi_st.csv"
+        fin = "../dat/fpi/gdp_per_cap_fpi.csv"
         lab = "GDP per cap / Food Price index"
     elif fn == "lor":
-        fin = "../out/logisticRegression_guci.csv"
-        lab = "Logistic Regression (GDP, UPR, Cor, Gini)"
+        fin = "../out/logisticRegression_all.csv"
+        lab = "Logistic Regression"
     elif fn == "sow":
-        fin = "../dat/sow/soilmois_cropland_ave_hist.csv"
-        lab = "Soil Moisture in cropland (1971 - 2019)"
+        fin = "../dat/sow/soilmois_cropland_kg_merged.csv"
+        lab = "Soil Moisture in cropland (1961 - 2014)"
     elif fn == "sowf":
         fin = "../dat/sow/soilmois_cropland_ave_rcp8p5.csv"
         lab = "Soil Moisture in cropland (RCP8.5, 2005 - 2099)"
@@ -72,15 +72,35 @@ def filename(fn):
     elif fn == "war":
         fin = "../dat/war/war.csv"
         lab = "War"
+    elif fn == "vul":
+        fin = "../out/vulnerability.csv"
+        lab = "Vulnerability"
+    elif fn == "haz":
+        fin = "../out/hazard.csv"
+        lab = "Hazard"
+    elif fn == "rsk":
+        fin = "../out/risk.csv"
+        lab = "Risk"
+    elif fn == "fpr":
+        fin = "../dat/fpr/cereal_import_dependency.csv"
+        lab = "Cereal import dependency (%, 2001-2016)"
+    elif fn == "csp":
+        fin = "../dat/csp/domestic_production_consumed.csv"
+        lab = "Domestic production consumed per capita (100$, 1961-2016)"
+    elif fn == "pol":
+        fin = "../dat/pol/political_stability.csv"
+        lab = "Political instability (2000-2018)"
+    elif fn == "pdi":
+        fin = "../dat/pdi/mod3_pdsi.csv"
+        lab = "Palmer's Drought Severity Index (1961 - 2018)"
 
     return [fin, lab]
 
-
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "war"
+dataname = "pdi"
 logscale = False
 saveflag = False
-famcheck = False   ### set True for the past dataset
+famcheck = True  ### set True for the past dataset
 
 ### input data
 fn = filename(dataname)
@@ -103,7 +123,7 @@ yl = np.array(yl)
 print(yl)
 
 ### model output
-prj = "drgt"
+prj = "dflt"
 #df3 = pd.read_csv("../../out/"+prj+"____vald.csv")
 #val = df3["Result"]
 
@@ -123,12 +143,13 @@ for i in range(1,len(dfp)):
         plt.plot(yl, tmp, linewidth=0.5, color="lightgray")
 
 if famcheck:
-    for y in range(1961,2019):
+    for y in range(1961,2015):
         for i in range(len(dff)):
             cnt = df["ISO3"][i]
-            print(cnt)
             if dff.loc[cnt, str(y)] != 0:
-                plt.scatter(y, dfp[i][y - syr + 1], color="Red", s=dff.loc[cnt,str(y)] * 5000, alpha=0.5, linewidths=None, zorder=100)
+                print(y, cnt)
+                #plt.scatter(y, dfp[i][y - syr + 1], color="Red", s=dff.loc[cnt,str(y)] * 5000, alpha=0.5, linewidths=None, zorder=100)
+                plt.scatter(y, dfp[i][y - syr + 1], color="Red", s=10, alpha=0.5, linewidths=None, zorder=100)
 
 # plt.scatter(1965, 300, color="Red", s=0.01*5000, alpha=0.5, linewidths=None, zorder=100)
 # plt.scatter(1965, 275, color="Red", s=0.05*5000, alpha=0.5, linewidths=None, zorder=100)
