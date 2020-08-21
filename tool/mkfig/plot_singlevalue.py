@@ -7,11 +7,12 @@ def filename(fn):
         fin = "aws/mod2_SupAgr__WFDELECD.csv"
         lab = "Agricultural water input"
     elif fn == "gdp":
-        fin = "fpi/gdp_per_cap_fpi.csv"
-        lab = "GDP per capita (fpi)"
+        #fin = "fpi/gdp_per_cap_fpi.csv"
+        fin = "gdp/gdp_per_cap_log_st.csv"
+        lab = "GDP per capita (st)"
     elif fn == "gdpf":
-        fin = "gdp/gdp_ssp1_cnt_year.csv"
-        lab = "GDP in the future (SSP1)"
+        fin = "gdp/gdp_per_cap_ssp1_st.csv"
+        lab = "GDP in the future (SSP1, st)"
     elif fn == "popf":
         fin = "pop/pop_ssp1_cnt_year.csv"
         lab = "Population in the future (SSP1)"
@@ -19,8 +20,8 @@ def filename(fn):
         fin = "gpi/global_peace_index.csv"
         lab = "Global Peace Index"
     elif fn == "upp":
-        fin = "upp/upp_new_filled.csv"
-        lab = "Urban population rate"
+        fin = "upp/upp_st.csv"
+        lab = "Urban population rate (st)"
     elif fn == "unr":
         fin = "unr/undernourishment.csv"
         lab = "Undernourished population rate"
@@ -60,8 +61,11 @@ def filename(fn):
     elif fn == "lor":
         fin = "../out/logisticRegression_all.csv"
         lab = "Logistic Regression"
+    elif fn == "lorf":
+        fin = "../out/logisticRegression_all_future_ssp1_rcp2p6.csv"
+        lab = "Logistic Regression (ssp1, rcp2.6)"
     elif fn == "sow":
-        fin = "../dat/sow/soilmois_cropland_kg_merged.csv"
+        fin = "../dat/sow/soilmois_cropland_kg_merged_st.csv"
         lab = "Soil Moisture in cropland (1961 - 2014)"
     elif fn == "sowf":
         fin = "../dat/sow/soilmois_cropland_ave_rcp8p5.csv"
@@ -96,8 +100,9 @@ def filename(fn):
 
     return [fin, lab]
 
+
 ### edit here   #select from aws, gdp, gpi, unr, upp
-dataname = "pdi"
+dataname = "lor"
 logscale = False
 saveflag = False
 famcheck = True  ### set True for the past dataset

@@ -48,14 +48,14 @@ def filename(fn):
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient"
     elif fn == "war":
-        fin = "../dat/war/war.csv"
+        fin = "../dat/war/war_prob.csv"
 #       fin = "../dat/war/war_5yrs_max.csv"
         lab = "War"
     elif fn == "warwma":
         fin = "../dat/war/war_wma.csv"
         lab = "War (weighted moving average of 5 years)"
     elif fn == "sow":
-        fin = "../dat/sow/soilmois_cropland_ave_hist.csv"
+        fin = "../dat/sow/soilmois_cropland_kg_merged.csv"
         lab = "Soil Moisture"
     elif fn == "csp":
         fin = "../dat/csp/domestic_production_consumed.csv"
@@ -69,7 +69,7 @@ def filename(fn):
 fam = pd.read_csv("../../dat/fam/famineData.csv")
 #fam = pd.read_csv("../../dat/fam/fam_5yrs_max.csv")
 
-xdata = "pdi"
+xdata = "sow"
 ydata = "war"
 logscale = False
 saveflag = False
@@ -82,8 +82,7 @@ inp_y = pd.read_csv("../../dat/"+yfn[0])
 dat_0 = [[],[]]
 dat_1 = [[],[]]
 
-#year = np.arange(1961, 2015)
-year = np.arange(1971, 2005)
+year = np.arange(1961, 2015)
 #year = np.arange(1961, 2016, 5)
 
 for yr in year:
@@ -91,11 +90,14 @@ for yr in year:
     for i in range(len(fam)):
         if fam[yr][i] == 1:
             dat_1[0].append(inp_x[yr][i])
-            dat_1[1].append(inp_y[yr][i])
-            print(yr, fam["ISO3"][i], inp_x[yr][i], inp_y[yr][i])
+            # dat_1[1].append(inp_y[yr][i])
+            dat_1[1].append(inp_y["prob"][i]) ## for war
+            # print(yr, fam["ISO3"][i], inp_x[yr][i], inp_y[yr][i])
+            print(yr, fam["ISO3"][i], inp_x[yr][i], inp_y["prob"][i])
         else:
             dat_0[0].append(inp_x[yr][i])
-            dat_0[1].append(inp_y[yr][i])
+            # dat_0[1].append(inp_y[yr][i])
+            dat_0[1].append(inp_y["prob"][i]) ## for war
 
 plt.scatter(dat_1[0], dat_1[1], color="red", alpha=0.5, zorder = 1, label = "Famine years")
 plt.scatter(dat_0[0], dat_0[1], color="gray", alpha=0.5, zorder = 0, label = "Other years")

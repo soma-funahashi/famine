@@ -68,12 +68,15 @@ def filename(fn):
     elif fn == "lor":
         fin = "../out/logisticRegression_all.csv"
         lab = "Logistic Regression"
+    elif fn == "pdi":
+        fin = "../dat/pdi/mod3_pdsi.csv"
+        lab = "Palmer's Drought Severity Index (ave. of 1961 - 2018)"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
 xdata = "gdp"
-ydata = "gin"
+ydata = "fpr"
 logscale = True
 
 ### input data

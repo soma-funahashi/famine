@@ -25,5 +25,6 @@ for y in yl:
 
 out = out.rename(columns=dic)
 
+out = out.fillna(out.mean())
 print(out)
 out.to_csv("../dat/fpr/cereal_import_dependency.csv")

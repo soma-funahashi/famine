@@ -73,7 +73,7 @@ def filename(fn):
         lab = "Cereal import dependency (%, 2001-2016)"
     elif fn == "lor":
         fin = "../out/logisticRegression_all.csv"
-        lab = "Logistic Regression (prob. 1961-2015)"
+        lab = "Logistic Regression (prob. 2014)"
     elif fn == "lorf":
         fin = "../out/logisticRegression_all_future_ssp1_rcp4p5.csv"
         lab = "Logistic Regression (prob. 2030, SSP1)"
@@ -84,9 +84,9 @@ def filename(fn):
     return [fin, lab]
 
 ### edit here   (select from aws, gdp, gpi, unr, upp)
-dataname = "pdi"
+dataname = "lor"
 logscale = False
-saveflag = False
+saveflag = True
 color = "Oranges"
 
 ### input data
@@ -101,10 +101,14 @@ fam_mean = fam.sum(axis = 1)
 ### get average
 #data=df.sum(axis="columns")
 data=df.mean(axis="columns")
+data=df["2014"]
+
 
 fn_out=fn[1]
-mx = data.max()
-mn = data.min()
+#mx = data.max()
+mx = 0.20
+#mn = data.min()
+mn = 0.00
 
 def area(ax, iso, clr):    ### coloring function
     shp = shpreader.natural_earth(resolution='50m',category='cultural',
