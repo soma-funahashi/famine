@@ -74,7 +74,7 @@ def bar_acc_20yrs():
     ax.bar(x_position, tmp[3], bottom=tmp[0]+tmp[1]+tmp[2], width=0.5, label=lab[3], color = "deepskyblue", hatch='//')
     plt.xticks(x_position, xlab, size=10, rotation=0)
     plt.legend(fontsize=10)
-    plt.title("Average number of factors in each famine", size=12)
+    # plt.title("Average number of factors in each famine", size=12)
     plt.savefig("../../fig/plt/ratio_acc.png", bbox_inches = "tight", dpi = 300)
     plt.show()
 
@@ -135,7 +135,7 @@ def bar_kind_acc_20yrs():
     plt.savefig("../../fig/plt/ratio_kind_acc.png", bbox_inches = "tight", dpi = 300)
     plt.show()
 
+#plot_20yrs()
 
-#bar_kind_acc_20yrs()
-plot_20yrs()
+bar_kind_acc_20yrs()
 #bar_acc_20yrs()

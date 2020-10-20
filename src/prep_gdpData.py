@@ -118,6 +118,7 @@ def prep_gdp_per_cap_fpi_5yrs(): # average of 5 years
     out_mean.to_csv("../dat/fpi/gdp_per_cap_fpi_5yrs_mean.csv")
     out_min.to_csv("../dat/fpi/gdp_per_cap_fpi_5yrs_min.csv")
 
+
 prep_gdp_per_cap_fpi_5yrs()
 
 #prep_gdp_future()

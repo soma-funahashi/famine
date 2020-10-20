@@ -35,4 +35,4 @@ for i in range(len(fam)):
             cnt_f[idx(val)] += 1
 
 for i in range(4):
-    print(lab[i], cnt_t[i], cnt_f[i])
+    print(lab[i], cnt_t[i], cnt_f[i], cnt_t[i]/(cnt_f[i] + cnt_t[i]))

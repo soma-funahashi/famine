@@ -71,19 +71,39 @@ def filename(fn):
     elif fn == "pdi":
         fin = "../dat/pdi/mod3_pdsi.csv"
         lab = "Palmer's Drought Severity Index (ave. of 1961 - 2018)"
+    elif fn == "coc":
+        fin = "../dat/wgi/wgi_CC.EST.csv"
+        lab = "Control of Corruption"
+    elif fn == "goe":
+        fin = "../dat/wgi/wgi_GE.EST.csv"
+        lab = "Government Effectiveness"
+    elif fn == "pvt":
+        fin = "../dat/wgi/wgi_PV.EST.csv"
+        lab = "Political Stability and Absence of Violence/Terrorism"
+    elif fn == "req":
+        fin = "../dat/wgi/wgi_RQ.EST.csv"
+        lab = "Regulatory Quality"
+    elif fn == "rol":
+        fin = "../dat/wgi/wgi_RL.EST.csv"
+        lab = "Rule of Law"
+    elif fn == "vaa":
+        fin = "../dat/wgi/wgi_VA.EST.csv"
+        lab = "Voice and Accountability"
 
     return [fin, lab]
 
 ### edit here   #select from aws, cor, gdp, pop, unr, upp, vap
-xdata = "gdp"
-ydata = "fpr"
-logscale = True
+xdata = "rol"
+ydata = "vaa"
+logscale = False
 
 ### input data
 xfn = filename(xdata)
 yfn = filename(ydata)
 df1 = pd.read_csv("../../dat/"+xfn[0])
 df2 = pd.read_csv("../../dat/"+yfn[0])
+df1.fillna(df1.mean(axis = "columns"))
+df2.fillna(df2.mean(axis = "columns"))
 
 tmp1 = []
 tmp2 = []
@@ -91,10 +111,13 @@ tmp2 = []
 tmp1 = df1.mean(axis="columns")
 tmp2 = df2.mean(axis="columns")
 
+print(tmp1)
+print(tmp2)
+
 ### model output
 prj = "dflt"
 df3 = pd.read_csv("../../out/"+prj+"____rslt.csv")
-df4 = pd.read_csv("../../dat/fam/famineData_drought.csv")
+df4 = pd.read_csv("../../dat/fam/famineData_all.csv")
 val3 = df3.values
 val4 = df4.values
 tmp3 = []

@@ -4,21 +4,24 @@ from sklearn import model_selection
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
+from scipy import stats
 import matplotlib.pyplot as plt
 from sklearn.calibration import calibration_curve
 import seaborn as sns
 sns.set_style("whitegrid")
 
-### Hazard
+
+## READING NECESSARY DATASET
+#### Hazard
 sow = pd.read_csv("../dat/sow/soilmois_cropland_kg_merged_st.csv", index_col="ISO3")
 war = pd.read_csv("../dat/war/war_prob_st.csv", index_col="ISO3")
 # sow = pd.read_csv("../dat/pdi/mod3_pdsi.csv", index_col="ISO3")
 
-### Exposure
+#### Exposure
 cor = pd.read_csv("../dat/cor/correlation_data_st.csv", index_col="ISO3")
 fpr = pd.read_csv("../dat/fpr/fpr_st.csv", index_col="ISO3")
 
-### Vulnerability
+#### Vulnerability
 gdp = pd.read_csv("../dat/gdp/gdp_per_cap_log_st.csv", index_col="ISO3")
 upp = pd.read_csv("../dat/upp/upp_st.csv", index_col="ISO3")
 gin = pd.read_csv("../dat/gin/gini_coeff_ave_st.csv", index_col="ISO3")
@@ -28,11 +31,27 @@ gin = pd.read_csv("../dat/gin/gini_coeff_ave_st.csv", index_col="ISO3")
 upp = upp.fillna(upp.mean())
 gin = gin.fillna(gin.mean())
 
-### famine
+#### WGI
+coc = pd.read_csv("../dat/wgi/wgi_CC.EST.csv", index_col="ISO3")
+goe = pd.read_csv("../dat/wgi/wgi_GE.EST.csv", index_col="ISO3")
+pvt = pd.read_csv("../dat/wgi/wgi_PV.EST.csv", index_col="ISO3")
+req = pd.read_csv("../dat/wgi/wgi_RQ.EST.csv", index_col="ISO3")
+rol = pd.read_csv("../dat/wgi/wgi_RL.EST.csv", index_col="ISO3")
+vaa = pd.read_csv("../dat/wgi/wgi_VA.EST.csv", index_col="ISO3")
+
+
+
+#### famine
 fam = pd.read_csv("../dat/fam/famineData_around.csv", index_col="ISO3")
 
+#### setting 
+vals = "all"
 
-def main(ssp, rcp):
+
+
+## FUNCTION
+
+def logisticRegression():
     sow_list = []
     war_list = []
     cor_list = []
@@ -41,11 +60,19 @@ def main(ssp, rcp):
     upp_list = []
     gin_list = []
     fam_list = []
+    coc_list = []
+    goe_list = []
+    pvt_list = []
+    req_list = []
+    rol_list = []
+    vaa_list = []
+
+
 
     cnt = 0
 
     for i in range(len(gdp)):
-        for yr in range(1961,2015):
+        for yr in range(1961, 2015):
             sow_list.append(sow.iat[i, yr - 1961])
             war_list.append(war.iat[i, 0])
 
@@ -56,6 +83,13 @@ def main(ssp, rcp):
             upp_list.append(upp.iat[i, yr - 1960])
             gin_list.append(gin.iat[i, 0])
             
+            coc_list.append(coc.iat[i, 0])
+            goe_list.append(goe.iat[i, 0])
+            pvt_list.append(pvt.iat[i, 0])
+            req_list.append(req.iat[i, 0])
+            rol_list.append(rol.iat[i, 0])
+            vaa_list.append(vaa.iat[i, 0])
+
             fam_list.append(fam.iat[i, yr - 1961])
             
             cnt += 1
@@ -70,12 +104,22 @@ def main(ssp, rcp):
     X["gdp"] = gdp_list
     X["upp"] = upp_list
     X["gin"] = gin_list
+    
+    ###
+
+    X["coc"] = coc_list
+    X["goe"] = goe_list
+    X["pvt"] = pvt_list
+    X["req"] = req_list
+    X["rol"] = rol_list
+    X["vaa"] = vaa_list
+
+    ###
 
     Y["fam"] = fam_list
 
-    vals = "all"
     
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state = None)
     lr = LogisticRegression()
     lr.fit(X_train, Y_train)
 
@@ -99,7 +143,10 @@ def main(ssp, rcp):
 
         out[str(yr)] = tmp2
     out.to_csv("../out/logisticRegression_" + vals + ".csv")
+    return lr
 
+
+def futurePred(lr, ssp, rcp):
     X_future = pd.DataFrame()
     gdp_f = pd.read_csv("../dat/gdp/gdp_per_cap_"+ssp+"_log_st.csv", index_col="ISO3")
     upp_f = pd.read_csv("../dat/upp/upp_future_st.csv", index_col="ISO3")
@@ -118,8 +165,6 @@ def main(ssp, rcp):
     gdp_list_future = []
     upp_list_future = []
     gin_list_future = []
-
-    num = 0
 
     for i in range(len(gdp)):
         for yr in range(2021, 2051):
@@ -147,8 +192,6 @@ def main(ssp, rcp):
     tmp_f = np.array(tmp_f)
     tmp_f = tmp_f.reshape([162, 30])
 
-#   print("shape =", tmp_f.shape)
-
     out_f = pd.DataFrame(index = gdp.index)
     for yr in range(2021, 2051):
         tmp2_f = []
@@ -157,9 +200,51 @@ def main(ssp, rcp):
 
         out_f[str(yr)] = tmp2_f
     out_f.to_csv("../out/logisticRegression_" + vals + "_future_"+ssp+"_rcp"+rcp+".csv")
-    # print(out_f)
+    print("Future prediction done :", ssp, rcp)
+
+def bootStrap():
+    bootstrap_out = []
+    for i in range(100):
+        lr = logisticRegression()
+        bootstrap_out.append(list(lr.coef_[0]))
+        bootstrap_out[i].append(lr.intercept_[0])
+    bootstrap_out = pd.DataFrame(np.array(bootstrap_out).astype(float), columns=["sow", "war", "cor", "fpr", "gdp", "upp", "gin", "intercept"])
+    print(bootstrap_out)
+    bootstrap_out.to_csv("../out/bootstrap_out.csv")
 
 
-for ssp in ("ssp1", "ssp2", "ssp3"):
-    for rcp in ("2p6", "4p5", "6p0", "8p5"):
-        main(ssp, rcp)
+def bootStrapCheck():
+    inp = pd.read_csv("../out/bootstrap_out.csv")
+    print(inp.describe())
+
+
+def tTest(val1, val2):
+    inp = pd.read_csv("../out/bootstrap_out.csv")
+    A = inp[val1]
+    B = inp[val2]
+    res = stats.ttest_rel(A, B)
+    print(val1, val2, res.pvalue)
+
+
+def main():
+    ### logistic regression
+    lr = logisticRegression()
+    
+    ### future prediction
+    # for ssp in ("ssp1", "ssp2", "ssp3"):
+    #     for rcp in ("2p6", "4p5", "6p0", "8p5"):
+    #         futurePred(lr, ssp, rcp)
+
+    ### bootstrap
+    # bootStrap()
+    # bootStrapCheck()
+
+    ### ttest
+    # val_list = ["sow", "war", "cor", "fpr", "gdp", "upp", "gin"]
+    # for i in range(6):
+    #     for j in range(i+1, 7):
+    #         tTest(val_list[i], val_list[j])
+
+
+if __name__ == "__main__":
+    main()

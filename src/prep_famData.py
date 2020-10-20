@@ -24,7 +24,7 @@ def famineData():
 
     out.to_csv("../dat/fam/" + nam + suf + ".csv")
 
-#famineData()
+famineData()
 
 def famineDataNumber():
     out=pd.DataFrame(index=iso["ISO3"], columns=np.arange(1960,2020))
