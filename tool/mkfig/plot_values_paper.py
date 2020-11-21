@@ -20,25 +20,25 @@ def filename(fn):
         lab = "Agricultural water input"
     if fn == "cor":
         fin = "cor/correlation_data.csv"
-        lab = "Correlation coefficient b/w\nAWS and VAP (1961 - 2014)"
+        lab = "Correlation coefficient b/w\nAWS and VAP (1961–2014)"
     elif fn == "gdp":
         fin = "gdp/gdp_per_cap_filled.csv"
-        lab = "GDP per capita ($, ave. of 1961 - 2019)"
+        lab = "GDP per capita ($, ave. of 1961–2019)"
     elif fn == "upp":
         fin = "upp/upp_new_filled.csv"
-        lab = "Urban population rate\n(%, ave. of 1961 - 2019)"
+        lab = "Urban population rate\n(%, ave. of 1961–2019)"
     elif fn == "gin":
         fin = "../dat/gin/gini_coeff_ave.csv"
         lab = "Gini Coefficient"
     elif fn == "war":
         fin = "../dat/war/war_prob.csv"
-        lab = "War (freqquency, 1961 - 2019)"
+        lab = "War (freqquency, 1961–2019)"
     elif fn == "fpr":
         fin = "../dat/fpr/cereal_import_dependency.csv"
-        lab = "Cereal import dependency\n(%, ave. of 2001 - 2016)"
+        lab = "Cereal import dependency\n(%, ave. of 2001–2016)"
     elif fn == "sow":
         fin = "../dat/sow/soilmois_cropland_kg_merged.csv"
-        lab = r"Soil water ($kg/m^2$, ave. of 1961 - 2014)"
+        lab = r"Soil water ($kg/m^2$, ave. of 1961–2014)"
 
     return [fin, lab]
 

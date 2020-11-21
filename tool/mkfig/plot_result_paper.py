@@ -49,6 +49,7 @@ for y in range(1961,2015):
                 plt.scatter(y, lor_val[i][y - 1961], color="Red", s=10, alpha=0.5, linewidths=None, zorder=100)
 
 plt.ylabel("Probability of famine")
+plt.xlabel("Year")
 plt.legend()
 plt.savefig("../../fig/plt/result_paper.png", bbox_inches="tight", dpi=300)
 plt.show()

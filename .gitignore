@@ -3,6 +3,7 @@ ref/*
 fig/*
 dat/*
 out/*
+notes/*
 */archived
 .DS_Store
 */nohup.out

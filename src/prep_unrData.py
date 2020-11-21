@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-inp = pd.read_csv("../dat/unr/undernourishment_org.csv", skiprows=4)
+inp = pd.read_csv("../dat/unr/undernourishment_org_new.csv", skiprows=4)
 iso = pd.read_csv("../dat/nat/nationCode.csv")
 
 cnt = iso["ISO3"]
@@ -22,4 +22,4 @@ for yr in range(2000,2019):
             tmp.append("")
     out[str(yr)] = tmp
 
-out.to_csv("../dat/unr/undernourishment.csv")
+out.to_csv("../dat/unr/undernourishment_new.csv")

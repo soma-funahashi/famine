@@ -101,17 +101,17 @@ def plot_fill_3(p, c, lab):
     ax[2].fill_between(yr, cnt_ssp3_rcp6p0[p], cnt_ssp3_rcp8p5[p], facecolor = c, edgecolor = c)
 
 
-plot_fill_1(1, "#CBE6F3", "Prob. 0.010~0.025")
-plot_fill_1(2, "#6EB7DB", "Prob. 0.025~0.050")
-plot_fill_1(3, "#007AB7", "Prob. 0.050~1.000")
+plot_fill_1(1, "#CBE6F3", "Prob. 0.010–0.025")
+plot_fill_1(2, "#6EB7DB", "Prob. 0.025–0.050")
+plot_fill_1(3, "#007AB7", "Prob. 0.050–1.000")
 
-plot_fill_2(1, "#C6EDDB", "Prob. 0.010~0.025")
-plot_fill_2(2, "#64C99B", "Prob. 0.025~0.050")
-plot_fill_2(3, "#009250", "Prob. 0.050~1.000")
+plot_fill_2(1, "#C6EDDB", "Prob. 0.010–0.025")
+plot_fill_2(2, "#64C99B", "Prob. 0.025–0.050")
+plot_fill_2(3, "#009250", "Prob. 0.050–1.000")
 
-plot_fill_3(1, "#F9DFD5", "Prob. 0.010~0.025")
-plot_fill_3(2, "#EDA184", "Prob. 0.025~0.050")
-plot_fill_3(3, "#DA5019", "Prob. 0.050~1.000")
+plot_fill_3(1, "#F9DFD5", "Prob. 0.010–0.025")
+plot_fill_3(2, "#EDA184", "Prob. 0.025–0.050")
+plot_fill_3(3, "#DA5019", "Prob. 0.050–1.000")
 
 ax[0].set_title("SSP1")
 ax[1].set_title("SSP2")
@@ -120,6 +120,11 @@ ax[2].set_title("SSP3")
 ax[0].legend(fontsize=9, loc="upper right")
 ax[1].legend(fontsize=9, loc="upper right")
 ax[2].legend(fontsize=9, loc="upper right")
+
+ax[0].set_xlabel("Year")
+ax[1].set_xlabel("Year")
+ax[2].set_xlabel("Year")
+ax[0].set_ylabel("Number of countries")
 
 plt.savefig("../../fig/plt/future_prediction.png", dpi=300, bbox_inches="tight")
 
